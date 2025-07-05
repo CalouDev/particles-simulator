@@ -14,7 +14,7 @@ public:
     virtual ~Particle() = default;
     
     virtual void update();
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window) const;
 
     sf::Vector2f getPos() const;
 

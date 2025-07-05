@@ -6,7 +6,7 @@ Ground::Ground(sf::RectangleShape box, float x, float y)
 }
 
 void Ground::update() {
-    if (this->box.getPosition().y >= WIN_H) {
+    if (box.getPosition().y >= WIN_H) {
         // delete from particles manager
     }
 }

@@ -10,7 +10,7 @@ void Sand::update() {
     box.move(velocity);
     lifetime -= 1.f;
 
-    if (this->box.getPosition().y >= WIN_H) {
+    if (box.getPosition().y >= WIN_H) {
         // delete from particles manager
     }
 }

@@ -9,17 +9,17 @@ void ParticlesManager::eventHandler(sf::Vector2f mouse_coords) {
 }
 
 void ParticlesManager::addParticles(Particle particle) {
-    this->manager.push_back(particle);
+    manager.push_back(particle);
 }
 
 void ParticlesManager::drawParticles(sf::RenderWindow& window) {
-    for (Particle& p : this->manager) {
+    for (Particle& p : manager) {
         p.draw(window);
     }
 }
 
 void ParticlesManager::updateParticles() {
-    for (Particle& p : this->manager) {
+    for (Particle& p : manager) {
         p.update();
     }
 }

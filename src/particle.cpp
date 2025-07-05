@@ -3,15 +3,15 @@
 Particle::Particle(sf::RectangleShape box, float x, float y)
     : box(box), velocity(0.f, 0.f), lifetime(10000.f)
 {
-    this->setPos(sf::Vector2f(x, y));
+    setPos(sf::Vector2f(x, y));
 }
 
 void Particle::update() {
-    this->box.move(velocity);
-    this->lifetime -= 1.f;
+    box.move(velocity);
+    lifetime -= 1.f;
 }
 
-void Particle::draw(sf::RenderWindow& window) {
+void Particle::draw(sf::RenderWindow& window) const {
     window.draw(box);
 }
 
