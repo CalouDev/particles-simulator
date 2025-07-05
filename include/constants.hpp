@@ -14,6 +14,6 @@ constexpr sf::Color CLR_GROUND = {77, 53, 51, 255};
 
 constexpr int FONT_SZ = 15;
 
-constexpr int PARTICLE_SZ = 5;
+constexpr int PARTICLE_SZ = 4;
 
 #endif

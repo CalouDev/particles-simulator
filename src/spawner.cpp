@@ -1,6 +1,5 @@
 #include "../include/spawner.hpp"
 
-
 void ParticlesManager::eventHandler(sf::Vector2f mouse_coords) {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         addParticles(Ground(sf::RectangleShape(sf::Vector2f(PARTICLE_SZ, PARTICLE_SZ)), mouse_coords.x, mouse_coords.y));
