@@ -5,6 +5,7 @@
 #include "../include/particle.hpp"
 #include "../include/sand.hpp"
 #include "../include/spawner.hpp"
+#include "../include/ui_particles_choice.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({WIN_W, WIN_H}), "Particles simulator - SFML " + std::to_string(SFML_VERSION_MAJOR) + "." + std::to_string(SFML_VERSION_MINOR) + "." + std::to_string(SFML_VERSION_PATCH));
@@ -12,14 +13,15 @@ int main() {
 
     // INITIALIZE
     ParticlesManager main_manager;
+    ParticlesChoice btn_choice;
 
     // LOAD
     sf::Vector2f mouse_coords = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
     sf::Clock clk;
-    sf::Font font("font/sans.ttf");
+    sf::Font font("font/pixelify_sans.ttf");
     sf::Text framerate_txt(font, "", FONT_SZ);
-    framerate_txt.setPosition(sf::Vector2f(0.0f, 0.0f));
+    framerate_txt.setPosition(sf::Vector2f(10.0f, 10.0f));
 
     while (window.isOpen()) {
         // UPDATE
@@ -40,10 +42,13 @@ int main() {
 
         main_manager.updateParticles();
 
+        btn_choice.update(mouse_coords);
+
         // DRAW
         window.clear(CLR_BG);
 
         main_manager.drawParticles(window);
+        btn_choice.draw(window);
 
         // UI
 
