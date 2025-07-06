@@ -2,20 +2,39 @@
 #include "../include/constants.hpp"
 
 ParticlesChoice::ParticlesChoice()
-    : box(sf::Vector2f(BTN_CHOICE_SZ_W, BTN_CHOICE_SZ_H))
+    : outline_box(sf::Vector2f(BTN_CHOICE_SZ_W, BTN_CHOICE_SZ_H))
+    , clred_box(sf::Vector2f(BTN_CHOICE_SZ_W - 10, BTN_CHOICE_SZ_H - 10))
     , hovered(false)
     , pressed(false)
+    , menu_open(false)
     , current_particle_type(GroundType)
+    , font()
+    , particle_name(font, std::string(NAMES_PARTICLES[current_particle_type]), FONT_SZ)
 {
-    box.setFillColor(CLR_BTN_BG);
-    box.setOutlineThickness(1);
-    box.setOutlineColor(sf::Color::White);
-    box.setPosition(sf::Vector2f(1155.f, 20.f));
+    outline_box.setFillColor(CLR_BTN_BG);
+    outline_box.setOutlineThickness(1);
+    outline_box.setOutlineColor(sf::Color::White);
+    outline_box.setOrigin(outline_box.getGeometricCenter());
+    outline_box.setPosition(sf::Vector2f(1205.f, 40.f));
+
+    clred_box.setFillColor(CLRS_PARTICLES[current_particle_type]);
+    clred_box.setOrigin(clred_box.getGeometricCenter());
+    clred_box.setPosition(outline_box.getPosition());
+
+    if (!font.openFromFile("font/pixelify_sans.ttf")) {
+        throw std::runtime_error("Error : Couldn't load font/pixelify_sans.ttf");
+    }
+
+    particle_name.setFont(font);
+    particle_name.setString(std::string(NAMES_PARTICLES[current_particle_type]));
+    particle_name.setCharacterSize(FONT_SZ);
+    particle_name.setOrigin(particle_name.getLocalBounds().getCenter());
+    particle_name.setPosition(outline_box.getPosition());
 }
 
 bool ParticlesChoice::isHovered(sf::Vector2f mouse_coords) const {
-    sf::Vector2f btn_pos = box.getPosition();
-    return (mouse_coords.x >= btn_pos.x && mouse_coords.x <= (btn_pos.x + BTN_CHOICE_SZ_W) && mouse_coords.y >= btn_pos.y && mouse_coords.y <= (btn_pos.y + BTN_CHOICE_SZ_H));
+    sf::Vector2f btn_pos = outline_box.getPosition();
+    return (mouse_coords.x >= (btn_pos.x - BTN_CHOICE_SZ_W/2) && mouse_coords.x <= (btn_pos.x + BTN_CHOICE_SZ_W/2) && mouse_coords.y >= (btn_pos.y - BTN_CHOICE_SZ_H/2) && mouse_coords.y <= (btn_pos.y + BTN_CHOICE_SZ_H/2));
 }
 
 bool ParticlesChoice::isPressed(sf::Vector2f mouse_coords) const {
@@ -24,25 +43,25 @@ bool ParticlesChoice::isPressed(sf::Vector2f mouse_coords) const {
 
 void ParticlesChoice::update(sf::Vector2f mouse_coords) {
     if (isHovered(mouse_coords)) {
-        box.setFillColor(CLR_BTN_HOVERED);
+        outline_box.setFillColor(CLR_BTN_HOVERED);
     } else if (isPressed(mouse_coords)) {
-        box.setFillColor(CLR_BTN_PRESSED);
+        outline_box.setFillColor(CLR_BTN_PRESSED);
     } else {
-        box.setFillColor(CLR_BTN_BG);
+        outline_box.setFillColor(CLR_BTN_BG);
     }
 }
 
 void ParticlesChoice::draw(sf::RenderWindow& window) const {
-    sf::RectangleShape rect_current_particles(sf::Vector2f(BTN_CHOICE_SZ_W - 10, BTN_CHOICE_SZ_H - 10));
-    sf::Font font("font/pixelify_sans.ttf");
-    sf::Text particles_name(font, std::string(NAMES_PARTICLES[current_particle_type]), FONT_SZ);
+    window.draw(outline_box);
+    window.draw(clred_box);
+    window.draw(particle_name);
+    // if (menu) { draw() }
+}
 
-    rect_current_particles.setFillColor(CLRS_PARTICLES[current_particle_type]);
-    rect_current_particles.setPosition(sf::Vector2f(1160.f, 25.f));
+ParticlesType ParticlesChoice::getCurrentParticleType() const {
+    return current_particle_type;
+}
 
-    particles_name.setPosition(sf::Vector2f(1170.f, 25.f));
-    
-    window.draw(box);
-    window.draw(rect_current_particles);
-    window.draw(particles_name);
+void ParticlesChoice::setCurrentParticleType(ParticlesType new_type) {
+    current_particle_type = new_type;
 }

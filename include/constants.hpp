@@ -3,6 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 
+enum ParticlesType {
+    GroundType,
+    SandType
+};
+
 constexpr int WIN_W = 1280;
 constexpr int WIN_H = 640;
 constexpr int FRAMERATE = 120;

@@ -10,7 +10,7 @@ protected:
     sf::Vector2f velocity;
     float lifetime;
 public:
-    Particle(sf::RectangleShape box, float x, float y);
+    Particle(sf::RectangleShape box, sf::Vector2f mouse_coords);
     virtual ~Particle() = default;
     
     virtual void update();

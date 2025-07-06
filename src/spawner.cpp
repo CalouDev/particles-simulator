@@ -1,10 +1,22 @@
 #include "../include/spawner.hpp"
+#include "../include/constants.hpp"
 
-void ParticlesManager::eventHandler(sf::Vector2f mouse_coords) {
+void ParticlesManager::eventHandler(sf::Vector2f mouse_coords, ParticlesType particle) {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-        addParticles(Ground(sf::RectangleShape(sf::Vector2f(PARTICLE_SZ, PARTICLE_SZ)), mouse_coords.x, mouse_coords.y));
+        sf::RectangleShape particle_shape(sf::Vector2f(PARTICLE_SZ, PARTICLE_SZ));
+
+        switch (particle) {
+            case GroundType:
+                addParticles(Ground(particle_shape, mouse_coords));
+                break;
+            case SandType:
+                addParticles(Sand(particle_shape, mouse_coords));
+                break;
+            default:
+                break;
+        }
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-        addParticles(Sand(sf::RectangleShape(sf::Vector2f(PARTICLE_SZ, PARTICLE_SZ)), mouse_coords.x, mouse_coords.y));
+        // Erase particles
     }
 }
 

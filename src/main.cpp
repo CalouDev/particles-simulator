@@ -16,7 +16,7 @@ int main() {
     ParticlesChoice btn_choice;
 
     // LOAD
-    sf::Vector2f mouse_coords = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+    sf::Vector2f mouse_coords;
 
     sf::Clock clk;
     sf::Font font("font/pixelify_sans.ttf");
@@ -38,7 +38,7 @@ int main() {
             }
         }
 
-        main_manager.eventHandler(mouse_coords);
+        main_manager.eventHandler(mouse_coords, btn_choice.getCurrentParticleType());
 
         main_manager.updateParticles();
 

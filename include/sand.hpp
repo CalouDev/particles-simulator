@@ -5,7 +5,7 @@
 
 class Sand : public Particle {
 public:
-    Sand(sf::RectangleShape box, float x, float y);
+    Sand(sf::RectangleShape box, sf::Vector2f mouse_coords);
     ~Sand() = default;
 
     void update() override;

@@ -1,7 +1,7 @@
 #include "../include/sand.hpp"
 
-Sand::Sand(sf::RectangleShape box, float x, float y)
-    : Particle(box, x, y) {
+Sand::Sand(sf::RectangleShape box, sf::Vector2f mouse_coords)
+    : Particle(box, mouse_coords) {
         this->box.setFillColor(CLR_SAND);
         velocity = sf::Vector2f(0.f, 2.f);
 }

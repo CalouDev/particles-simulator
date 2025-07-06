@@ -1,9 +1,9 @@
 #include "../include/particle.hpp"
 
-Particle::Particle(sf::RectangleShape box, float x, float y)
+Particle::Particle(sf::RectangleShape box, sf::Vector2f mouse_coords)
     : box(box), velocity(0.f, 0.f), lifetime(10000.f)
 {
-    setPos(sf::Vector2f(x, y));
+    setPos(mouse_coords);
 }
 
 void Particle::update() {

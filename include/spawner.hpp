@@ -10,7 +10,7 @@ class ParticlesManager {
 private:
     std::vector<Particle> manager;
 public:
-    void eventHandler(sf::Vector2f mouse_coords);
+    void eventHandler(sf::Vector2f mouse_coords, ParticlesType particle);
     void drawParticles(sf::RenderWindow& window);
     void addParticles(Particle particle);
     void updateParticles();

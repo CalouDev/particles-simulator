@@ -1,7 +1,7 @@
 #include "../include/ground.hpp"
 
-Ground::Ground(sf::RectangleShape box, float x, float y)
-    : Particle(box, x, y) {
+Ground::Ground(sf::RectangleShape box, sf::Vector2f mouse_coords)
+    : Particle(box, mouse_coords) {
         this->box.setFillColor(CLR_GROUND);
 }
 
