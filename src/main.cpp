@@ -16,7 +16,7 @@ int main() {
     ParticlesChoice btn_choice;
 
     // LOAD
-    sf::Vector2f mouse_coords;
+    sf::Vector2f mouse_coords, prev_mouse_coords;
 
     sf::Clock clk;
     sf::Font font("font/pixelify_sans.ttf");
@@ -38,7 +38,7 @@ int main() {
             }
         }
 
-        main_manager.eventHandler(mouse_coords, btn_choice.getCurrentParticleType());
+        main_manager.eventHandler(mouse_coords, prev_mouse_coords, btn_choice.getCurrentParticleType());
 
         main_manager.updateParticles();
 
@@ -55,5 +55,8 @@ int main() {
         if (DEBUG) window.draw(framerate_txt);
     
         window.display();
+
+        // END FRAME
+        prev_mouse_coords = mouse_coords;
     }
 }
