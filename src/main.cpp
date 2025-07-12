@@ -42,7 +42,7 @@ int main() {
 
         main_manager.updateParticles();
 
-        btn_choice.update(mouse_coords);
+        btn_choice.update(mouse_coords, btn_choice.getOutlineBoxes());
 
         // DRAW
         window.clear(CLR_BG);

@@ -9,24 +9,26 @@ public:
     ParticlesChoice();
     ~ParticlesChoice() = default;
 
-    bool isHovered(sf::Vector2f mouse_coords) const;
-    bool isPressed(sf::Vector2f mouse_coords) const;
+    bool isHovered(sf::Vector2f mouse_coords, sf::RectangleShape outline_box) const;
+    bool isPressed(sf::Vector2f mouse_coords, sf::RectangleShape outline_box) const;
 
-    void update(sf::Vector2f mouse_coords);
+    void update(sf::Vector2f mouse_coords, std::vector<sf::RectangleShape> outline_boxes);
     void draw(sf::RenderWindow& window) const;
 
     ParticlesType getCurrentParticleType() const;
+    std::vector<sf::RectangleShape> getOutlineBoxes() const;
 
     void setCurrentParticleType(ParticlesType new_type);
 private:
-    sf::RectangleShape outline_box;
-    sf::RectangleShape clred_box;
+    std::vector<sf::RectangleShape> outline_boxes;
+    std::vector<sf::RectangleShape> clred_boxes;
+    std::vector<ParticlesType> particles_type;
     bool hovered;
     bool pressed;
     bool menu_open;
     ParticlesType current_particle_type;
     sf::Font font;
-    sf::Text particle_name;
+    std::vector<sf::Text> particle_names;
 };
 
 #endif
