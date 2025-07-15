@@ -11,6 +11,6 @@ void Sand::update() {
     lifetime -= 1.f;
 
     if (box.getPosition().y >= WIN_H) {
-        // delete from particles manager
+        //delete this;
     }
 }

@@ -12,6 +12,8 @@ enum ParticlesType {
 
 constexpr int WIN_W = 1280;
 constexpr int WIN_H = 640;
+constexpr int GRID_W = WIN_W / 8;
+constexpr int GRID_H = WIN_H / 8;
 constexpr int FRAMERATE = 120;
 constexpr int DEBUG = 1;
 constexpr int N_PARTICLE_TYPES = 4;

@@ -8,7 +8,6 @@ Particle::Particle(sf::RectangleShape box, sf::Vector2f mouse_coords)
 
 void Particle::update() {
     box.move(velocity);
-    lifetime -= 1.f;
 }
 
 void Particle::draw(sf::RenderWindow& window) const {
