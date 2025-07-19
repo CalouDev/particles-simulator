@@ -5,6 +5,7 @@
 FrameRate::FrameRate(const sf::Font& font)
     : fps_text(font, "FPS : N/A", FONT_SZ)
 {
+    fps_text.setOrigin(fps_text.getLocalBounds().getCenter());
     fps_text.setPosition(POS_FPS);
     fps_text.setFillColor(sf::Color::White);
 }

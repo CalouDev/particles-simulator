@@ -45,7 +45,8 @@ constexpr int FONT_SZ = 20;
 constexpr sf::Vector2f BTN_SZ = {100.f, 40.f};
 constexpr int PARTICLE_SZ = 1;
 
-constexpr sf::Vector2f POS_FPS = {10.f, 10.f};
+constexpr sf::Vector2f POS_FPS = {10.f, 20.f};
+constexpr sf::Vector2f POS_UI_PANEL = {1130.f, 0.f};
 
 constexpr int32_t REFRESH_RATE_FPS_MS = 1000;
 

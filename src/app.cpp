@@ -2,17 +2,23 @@
 
 App::App()
     : window(initWindowSettings())
-    , ui_panel(sf::Vector2f(180.f, WIN_Hf))
+    , grid_delimitation(sf::Vector2f(POS_UI_PANEL.x - 10.f, WIN_Hf - POS_FPS.y - FONT_SZ/2 - 10.f))
+    , ui_panel(sf::Vector2f(WIN_Wf - POS_UI_PANEL.x, WIN_Hf))
     , main_font()
     , framerate(main_font)
 {
-    window.setFramerateLimit(FRAMERATE);
+    //window.setFramerateLimit(FRAMERATE);
 
     if (!main_font.openFromFile("font/pixelify_sans.ttf")) {
         throw std::runtime_error("Error: Could not load font. FPS counter disabled.\n");
     }
 
-    ui_panel.setPosition(sf::Vector2f(1130.f, 0.f));
+    grid_delimitation.setPosition(sf::Vector2f(5.f, POS_FPS.y + FONT_SZ/2));
+    grid_delimitation.setFillColor(sf::Color::Transparent);
+    grid_delimitation.setOutlineColor(sf::Color::White);
+    grid_delimitation.setOutlineThickness(1);
+
+    ui_panel.setPosition(POS_UI_PANEL);
     ui_panel.setFillColor(CLR_PANEL);
 }
 
@@ -31,7 +37,7 @@ sf::RenderWindow App::initWindowSettings() {
         window_settings);
 }
 
-void App::update() {
+void App::mainLoop() {
     while (window.isOpen()) {
         mouse_coords = window.mapPixelToCoords(sf::Mouse::getPosition(window));
         
@@ -54,6 +60,7 @@ void App::draw() {
     window.clear(CLR_BG);
 
     // UI - BEHIND
+    window.draw(grid_delimitation);
     window.draw(ui_panel);
 
     // MAIN

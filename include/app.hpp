@@ -15,11 +15,12 @@ class App {
 private:
     sf::ContextSettings window_settings;
     sf::RenderWindow window;
-    ParticlesManager main_manager;
-    ButtonManager button_panel;
     sf::Vector2f mouse_coords, prev_mouse_coords;
+    sf::RectangleShape grid_delimitation;
     sf::RectangleShape ui_panel;
     sf::Font main_font;
+    ParticlesManager main_manager;
+    ButtonManager button_panel;
     FrameRate framerate;
 private:
     sf::RenderWindow initWindowSettings();
@@ -29,7 +30,7 @@ public:
     App();
     ~App();
 
-    void update();
+    void mainLoop();
 };
 
 #endif

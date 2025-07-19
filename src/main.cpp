@@ -2,7 +2,8 @@
 
 int main(void) {
     App app;
-    app.update();
+
+    app.mainLoop();
 
     return 0;
 }
