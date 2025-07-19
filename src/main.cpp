@@ -8,7 +8,9 @@
 #include "../include/button_manager.hpp"
 
 int main(void) {
-    sf::RenderWindow window(sf::VideoMode({WIN_W, WIN_H}), "Particles simulator - SFML " + std::to_string(SFML_VERSION_MAJOR) + "." + std::to_string(SFML_VERSION_MINOR) + "." + std::to_string(SFML_VERSION_PATCH));
+    sf::ContextSettings window_settings;
+    window_settings.antiAliasingLevel = 8;
+    sf::RenderWindow window(sf::VideoMode({WIN_W, WIN_H}), "Particles simulator - SFML " + std::to_string(SFML_VERSION_MAJOR) + "." + std::to_string(SFML_VERSION_MINOR) + "." + std::to_string(SFML_VERSION_PATCH), sf::State::Windowed, window_settings);
     window.setFramerateLimit(FRAMERATE);
 
     // INITIALIZE
@@ -22,16 +24,25 @@ int main(void) {
     ui_panel.setFillColor(CLR_PANEL);
 
     sf::Clock clk;
-    sf::Font font("font/pixelify_sans.ttf");
-    sf::Text framerate_txt(font, "", FONT_SZ);
+    sf::Font font;
+    sf::Text framerate_txt(font);
     framerate_txt.setPosition(sf::Vector2f(10.0f, 10.0f));
+
+    if (font.openFromFile("font/pixelify_sans.ttf")) {
+        framerate_txt.setFont(font);
+        framerate_txt.setCharacterSize(FONT_SZ);
+        framerate_txt.setPosition(sf::Vector2f(10.0f, 10.0f));
+        framerate_txt.setFillColor(sf::Color::White);
+    } else {
+        throw std::runtime_error("Error: Could not load font. FPS counter disabled.\n");
+    }
 
     while (window.isOpen()) {
         // UPDATE
         sf::Time delta_time_timer = clk.restart();
         double delta_time = delta_time_timer.asMilliseconds();
 
-        framerate_txt.setString(std::to_string(static_cast<int>(1000 / delta_time)) + " fps");
+        framerate_txt.setString("FPS : " + std::to_string(static_cast<int>(1000 / delta_time)));
 
         mouse_coords = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 

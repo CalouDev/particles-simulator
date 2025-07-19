@@ -9,7 +9,7 @@ class Button {
 private:
     bool is_hovered;
     bool is_pressed;
-    std::string_view label;
+    std::string label;
 
     sf::RectangleShape box;
     sf::RectangleShape white_box;
@@ -20,7 +20,7 @@ private:
     bool isHovered(sf::Vector2f mouse_coords) const;
     bool isPressed(sf::Vector2f mouse_coords) const;
 public:
-    Button();
+    Button(const sf::Font& pixel_font);
     virtual ~Button() = default;
 
     void update(sf::Vector2f mouse_coords);
@@ -30,7 +30,7 @@ public:
     bool getIsPressed() const { return is_pressed; };
     sf::Vector2f getPos() const { return box.getPosition(); }
 
-    void setClr(sf::Color _clr) { clr = _clr; } 
+    void setClr(sf::Color _clr);
     void setLabel(std::string_view _label);
     void setPos(sf::Vector2f pos);
 };

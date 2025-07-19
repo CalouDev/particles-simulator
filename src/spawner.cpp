@@ -10,7 +10,7 @@ ParticlesManager::ParticlesManager()
 }
 
 void ParticlesManager::eventHandler(sf::Vector2f mouse_coords, sf::Vector2f previous_mouse_coords, ParticlesType particle) {
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && mouse_coords.x < 1130.f) {
         interpolateParticles(particle, mouse_coords, previous_mouse_coords);
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
         for (auto& row : grid)
@@ -49,7 +49,7 @@ void ParticlesManager::interpolateParticles(ParticlesType particle, sf::Vector2f
         float t = static_cast<float>(i) / steps;
         sf::Vector2f interpolated_pos = previous_mouse_coords + delta * t;
         sf::Vector2i int_interpolated_pos = sf::Vector2i(std::floor(interpolated_pos.x), std::floor(interpolated_pos.y));
-        if (icurrent_mouse_coords.y >= 0 && icurrent_mouse_coords.y < GRID_H && icurrent_mouse_coords.x >= 0 && icurrent_mouse_coords.x < GRID_W && grid[icurrent_mouse_coords.y][icurrent_mouse_coords.x] == nullptr) { 
+        if (int_interpolated_pos.y >= 0 && int_interpolated_pos.y < GRID_H && int_interpolated_pos.x >= 0 && int_interpolated_pos.x < GRID_W && grid[int_interpolated_pos.y][int_interpolated_pos.x] == nullptr) { 
             switch (particle) {
                 case GroundType:
                     for (int i = -1; i <= 1; ++i) {

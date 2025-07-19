@@ -13,7 +13,7 @@ private:
     ParticlesType current_particle_type;
     sf::RectangleShape outline_box;
     sf::Font font;
-    std::vector<Button> buttons;
+    std::vector<std::unique_ptr<Button>> buttons;
 public:
     ButtonManager();
     ~ButtonManager() = default;
