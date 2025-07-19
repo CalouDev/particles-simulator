@@ -5,18 +5,21 @@
 #include "../include/particle.hpp"
 #include "../include/sand.hpp"
 #include "../include/spawner.hpp"
-#include "../include/ui_particles_choice.hpp"
+#include "../include/button_manager.hpp"
 
-int main() {
+int main(void) {
     sf::RenderWindow window(sf::VideoMode({WIN_W, WIN_H}), "Particles simulator - SFML " + std::to_string(SFML_VERSION_MAJOR) + "." + std::to_string(SFML_VERSION_MINOR) + "." + std::to_string(SFML_VERSION_PATCH));
     window.setFramerateLimit(FRAMERATE);
 
     // INITIALIZE
     ParticlesManager main_manager;
-    ParticlesChoice btn_choice;
+    ButtonManager btn_choice;
 
     // LOAD
     sf::Vector2f mouse_coords, prev_mouse_coords;
+    sf::RectangleShape ui_panel(sf::Vector2f(180.f, WIN_Hf));
+    ui_panel.setPosition(sf::Vector2f(1130.f, 0.f));
+    ui_panel.setFillColor(CLR_PANEL);
 
     sf::Clock clk;
     sf::Font font("font/pixelify_sans.ttf");
@@ -42,16 +45,19 @@ int main() {
 
         main_manager.updateParticles();
 
-        btn_choice.update(mouse_coords, btn_choice.getOutlineBoxes());
+        btn_choice.update(mouse_coords);
 
-        // DRAW
         window.clear(CLR_BG);
 
+        // UI - BEHIND
+        window.draw(ui_panel);
+
+        // DRAW
         main_manager.drawParticles(window);
+        
+        // UI - OVER
+        
         btn_choice.draw(window);
-
-        // UI
-
         if (DEBUG) window.draw(framerate_txt);
     
         window.display();
@@ -59,4 +65,6 @@ int main() {
         // END FRAME
         prev_mouse_coords = mouse_coords;
     }
+
+    return 0;
 }
