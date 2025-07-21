@@ -3,7 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
-enum ParticlesType {
+enum ParticlesType : short {
+    EmptyType,
     GroundType,
     SandType,
     WaterType,
@@ -19,8 +20,6 @@ constexpr int WIN_W = 1280;
 constexpr int WIN_H = 640;
 constexpr float WIN_Wf = static_cast<float>(WIN_W);
 constexpr float WIN_Hf = static_cast<float>(WIN_H);
-constexpr int GRID_W = WIN_W;
-constexpr int GRID_H = WIN_H;
 constexpr int FRAMERATE = 120;
 
 constexpr sf::Color CLR_BG = {16, 18, 28, 255};
@@ -42,11 +41,17 @@ constexpr std::array<ParticleInfo, N_PARTICLE_TYPES> PARTICLES_DATA = {{
 }};
 
 constexpr int FONT_SZ = 20;
-constexpr sf::Vector2f BTN_SZ = {100.f, 40.f};
-constexpr int PARTICLE_SZ = 1;
 
 constexpr sf::Vector2f POS_FPS = {10.f, 20.f};
 constexpr sf::Vector2f POS_UI_PANEL = {1130.f, 0.f};
+constexpr sf::Vector2f POS_GRID = {5.f, POS_FPS.y + FONT_SZ/2};
+
+constexpr sf::Vector2f GRID_SZ = {POS_UI_PANEL.x - 10.f, WIN_Hf - POS_FPS.y - FONT_SZ/2 - 10.f};
+constexpr sf::Vector2u GRID_SZu = {static_cast<unsigned int>(GRID_SZ.x), static_cast<unsigned int>(GRID_SZ.y)};
+constexpr sf::Vector2f BTN_SZ = {100.f, 40.f};
+constexpr int PARTICLE_SZ = 1;
+
+
 
 constexpr int32_t REFRESH_RATE_FPS_MS = 1000;
 

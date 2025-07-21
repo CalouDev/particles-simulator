@@ -12,9 +12,9 @@ FrameRate::FrameRate(const sf::Font& font)
 
 void FrameRate::update() {
     sf::Time delta_time_timer = clk.restart();
-    double delta_time = delta_time_timer.asMilliseconds();
+    int32_t delta_time = delta_time_timer.asMilliseconds();
 
-    if (interval.getElapsedTime().asMilliseconds() >= REFRESH_RATE_FPS_MS) {
+    if (delta_time != 0 && interval.getElapsedTime().asMilliseconds() >= REFRESH_RATE_FPS_MS) {
         interval.restart();
         fps_text.setString("FPS : " + std::to_string(static_cast<int>(1000 / delta_time)));
     }

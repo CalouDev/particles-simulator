@@ -2,7 +2,7 @@
 
 App::App()
     : window(initWindowSettings())
-    , grid_delimitation(sf::Vector2f(POS_UI_PANEL.x - 10.f, WIN_Hf - POS_FPS.y - FONT_SZ/2 - 10.f))
+    , grid_delimitation(GRID_SZ)
     , ui_panel(sf::Vector2f(WIN_Wf - POS_UI_PANEL.x, WIN_Hf))
     , main_font()
     , framerate(main_font)
@@ -13,7 +13,7 @@ App::App()
         throw std::runtime_error("Error: Could not load font. FPS counter disabled.\n");
     }
 
-    grid_delimitation.setPosition(sf::Vector2f(5.f, POS_FPS.y + FONT_SZ/2));
+    grid_delimitation.setPosition(POS_GRID);
     grid_delimitation.setFillColor(sf::Color::Transparent);
     grid_delimitation.setOutlineColor(sf::Color::White);
     grid_delimitation.setOutlineThickness(1);
@@ -31,7 +31,7 @@ sf::RenderWindow App::initWindowSettings() {
     window_settings.antiAliasingLevel = 8;
 
     return sf::RenderWindow(
-        sf::VideoMode({WIN_W, WIN_H}),
+        sf::VideoMode(sf::Vector2u(WIN_W, WIN_H)),
         "Particles simulator - SFML " + std::to_string(SFML_VERSION_MAJOR) + "." + std::to_string(SFML_VERSION_MINOR) + "." + std::to_string(SFML_VERSION_PATCH),
         sf::State::Windowed,
         window_settings);
@@ -46,10 +46,12 @@ void App::mainLoop() {
                 window.close();
             }
         }
+
+        window.clear(CLR_BG);
         
-        main_manager.eventHandler(mouse_coords, prev_mouse_coords, button_panel.getCurrentParticleType());
+        main_manager.eventHandler(mouse_coords, prev_mouse_coords, grid_delimitation, button_panel.getCurrentParticleType());
         framerate.update();
-        main_manager.updateParticles();
+        main_manager.updateParticles(window);
         button_panel.update(mouse_coords);
 
         draw();
@@ -57,14 +59,12 @@ void App::mainLoop() {
 }
 
 void App::draw() {
-    window.clear(CLR_BG);
-
     // UI - BEHIND
     window.draw(grid_delimitation);
     window.draw(ui_panel);
 
     // MAIN
-    main_manager.drawParticles(window);
+
     
     // UI - OVER
     button_panel.draw(window);
