@@ -21,6 +21,7 @@ public:
     void addParticles(ParticlesType particle, sf::Vector2i particle_coords);
     void removeParticle(sf::Vector2i particle_coords);
     void updateParticles(sf::RenderWindow& window);
+    void updateParticleBehavior(sf::Vector2i particle_pos);
 };
 
 #endif

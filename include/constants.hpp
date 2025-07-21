@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 enum ParticlesType : short {
-    EmptyType,
+    EmptyType = -1,
     GroundType,
     SandType,
     WaterType,

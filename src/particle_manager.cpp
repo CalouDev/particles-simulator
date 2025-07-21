@@ -53,18 +53,46 @@ void ParticlesManager::removeParticle(sf::Vector2i particle_coords) {
 void ParticlesManager::drawParticles(sf::RenderWindow& window, ParticlesType particle, sf::Vector2f particle_pos) {
     sf::RectangleShape particle_shape(sf::Vector2f(PARTICLE_SZ, PARTICLE_SZ));
 
-    particle_shape.setFillColor(PARTICLES_DATA[static_cast<int>(particle)].clr); // Since EmptyType = 0
+    particle_shape.setFillColor(PARTICLES_DATA[static_cast<int>(particle)].clr);
     particle_shape.setPosition(sf::Vector2f(particle_pos.x, particle_pos.y) + POS_GRID);
     window.draw(particle_shape);
     }
 
 void ParticlesManager::updateParticles(sf::RenderWindow& window) {
-    for (size_t i = 0; i < grid.size(); ++i) {
-        for (size_t j = 0; j < grid[0].size(); ++j) {
+    for (size_t i = 0; i < grid.size() - 1; ++i) {
+        for (size_t j = 0; j < grid[0].size() - 1; ++j) {
             if (EmptyType != grid[i][j]) {
                 drawParticles(window, grid[i][j], sf::Vector2f(j, i));
-                // updateBehavior(ParticlesType ...)
+                updateParticleBehavior(sf::Vector2i(j, i));
             }
         }
+    }
+}
+
+void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
+    int y = particle_pos.y, x = particle_pos.x;
+    ParticlesType current_particle = grid[particle_pos.y][particle_pos.x];
+
+    switch (current_particle) {
+        case SandType:
+            if (EmptyType == grid[y + 1][x]) {
+                std::swap(grid[y][x], grid[y + 1][x]);
+            } else if (EmptyType == grid[y + 1][x - 1]) {
+                std::swap(grid[y][x], grid[y + 1][x - 1]);
+            } else if (EmptyType == grid[y + 1][x + 1]) {
+                std::swap(grid[y][x], grid[y + 1][x + 1]);
+            }
+            break;
+        case WaterType:
+            if (EmptyType == grid[y + 1][x]) {
+                std::swap(grid[y][x], grid[y + 1][x]);
+            } else if (EmptyType == grid[y + 1][x - 1]) {
+                std::swap(grid[y][x], grid[y + 1][x - 1]);
+            } else if (EmptyType == grid[y + 1][x + 1]) {
+                std::swap(grid[y][x], grid[y + 1][x + 1]);
+            }
+            break;
+        default:
+            break;
     }
 }
