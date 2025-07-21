@@ -84,12 +84,20 @@ void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
             }
             break;
         case WaterType:
-            if (EmptyType == grid[y + 1][x]) {
+            if (grid[y + 1][x] == EmptyType) {
                 std::swap(grid[y][x], grid[y + 1][x]);
-            } else if (EmptyType == grid[y + 1][x - 1]) {
-                std::swap(grid[y][x], grid[y + 1][x - 1]);
-            } else if (EmptyType == grid[y + 1][x + 1]) {
-                std::swap(grid[y][x], grid[y + 1][x + 1]);
+            } else {
+                int dir = ((rand() % 2) ? -1 : 1);
+
+                if (grid[y][x + dir] == EmptyType) {
+                    std::swap(grid[y][x], grid[y][x + dir]);
+                } else if (grid[y][x - dir] == EmptyType) {
+                    std::swap(grid[y][x], grid[y][x - dir]);
+                } else if (grid[y + 1][x + dir] == EmptyType) {
+                    std::swap(grid[y][x], grid[y + 1][x + dir]);
+                } else if (grid[y + 1][x - dir] == EmptyType) {
+                    std::swap(grid[y][x], grid[y + 1][x - dir]);
+                }
             }
             break;
         default:
