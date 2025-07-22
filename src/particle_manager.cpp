@@ -9,11 +9,10 @@ void ParticlesManager::eventHandler(sf::Vector2f mouse_coords, sf::Vector2f prev
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && grid_delimitation.getGlobalBounds().contains(mouse_coords)) {
         interpolateParticles(mouse_coords, previous_mouse_coords, grid_delimitation, particle);
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-        sf::Vector2i remove_particle_pos(static_cast<int>(mouse_coords.x - POS_GRID.x), static_cast<int>(mouse_coords.y - POS_GRID.y));
+        sf::Vector2i remove_particle_pos(static_cast<int>(mouse_coords.x - POS_GRID.x) / PARTICLE_SZ, static_cast<int>(mouse_coords.y - POS_GRID.y) / PARTICLE_SZ);
         if (EmptyType != grid[remove_particle_pos.y][remove_particle_pos.x]) {
             removeParticle(remove_particle_pos);
         }
-
     }
 }
 
