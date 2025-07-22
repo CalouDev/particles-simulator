@@ -33,7 +33,6 @@ void ParticlesManager::interpolateParticles(sf::Vector2f current_mouse_coords, s
     previous_mouse_coords -= POS_GRID;
     current_mouse_coords -= POS_GRID;
     sf::Vector2i icurrent_mouse_coords = sf::Vector2i(static_cast<int>(current_mouse_coords.x / PARTICLE_SZ) * PARTICLE_SZ, static_cast<int>(current_mouse_coords.y / PARTICLE_SZ) * PARTICLE_SZ);
-    printf("%d;%d\n", icurrent_mouse_coords.x, icurrent_mouse_coords.y);
     if (grid_delimitation.getGlobalBounds().contains(current_mouse_coords + POS_GRID) && EmptyType == grid[icurrent_mouse_coords.y][icurrent_mouse_coords.x]) { 
         addParticles(particle, icurrent_mouse_coords / PARTICLE_SZ);
     }
@@ -46,7 +45,6 @@ void ParticlesManager::interpolateParticles(sf::Vector2f current_mouse_coords, s
         float t = static_cast<float>(i) / steps;
         sf::Vector2f interpolated_pos = previous_mouse_coords + delta * t;
         sf::Vector2i int_interpolated_pos = sf::Vector2i(static_cast<int>(interpolated_pos.x / PARTICLE_SZ), static_cast<int>(interpolated_pos.y / PARTICLE_SZ));
-        printf("%d;%d\n", int_interpolated_pos.x, int_interpolated_pos.y);
         if (grid_delimitation.getGlobalBounds().contains(interpolated_pos + POS_GRID) && EmptyType == grid[int_interpolated_pos.y][int_interpolated_pos.x]) {
             addParticles(particle, int_interpolated_pos);
         }
@@ -58,7 +56,6 @@ void ParticlesManager::addParticles(ParticlesType particle, sf::Vector2i particl
 }
 
 void ParticlesManager::removeParticle(sf::Vector2i particle_coords) {
-    printf("remove at : %d;%d\n", particle_coords.x, particle_coords.y);
     grid[particle_coords.y][particle_coords.x] = EmptyType;
 }
 
