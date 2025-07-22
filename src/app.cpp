@@ -1,5 +1,8 @@
 #include "../include/app.hpp"
 
+#include <windows.h>
+#include <filesystem>
+
 App::App()
     : window(initWindowSettings())
     , grid_delimitation(GRID_SZ)
@@ -7,10 +10,14 @@ App::App()
     , main_font()
     , framerate(main_font)
 {
-    //window.setFramerateLimit(FRAMERATE);
+    wchar_t buffer[MAX_PATH];
+    GetModuleFileNameW(nullptr, buffer, MAX_PATH);
 
-    if (!main_font.openFromFile("font/pixelify_sans.ttf")) {
-        throw std::runtime_error("Error: Could not load font. FPS counter disabled.\n");
+    std::filesystem::path bin_path = std::filesystem::path(buffer).parent_path();
+    std::filesystem::path font_path = bin_path / ".." / "font" / "pixelify_sans.ttf";
+
+    if (!main_font.openFromFile(font_path)) {
+        throw std::runtime_error("Error: Could not load font.\n");
     }
 
     grid_delimitation.setPosition(POS_GRID);

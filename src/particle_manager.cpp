@@ -9,23 +9,11 @@ void ParticlesManager::eventHandler(sf::Vector2f mouse_coords, sf::Vector2f prev
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && grid_delimitation.getGlobalBounds().contains(mouse_coords)) {
         interpolateParticles(mouse_coords, previous_mouse_coords, grid_delimitation, particle);
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-        // TODO: Make a button to delete all :
-        
-        /*for (size_t i = 0; i < GRID_SZ.y; ++i) {
-            for (size_t j = 0; j < GRID_SZ.x; ++j) {
-                if (EmptyType != grid[i][j]) {
-                    removeParticle(sf::Vector2i(j, i));
-                }
-            }
-        }*/
-
         sf::Vector2i remove_particle_pos(static_cast<int>(mouse_coords.x - POS_GRID.x), static_cast<int>(mouse_coords.y - POS_GRID.y));
-
         if (EmptyType != grid[remove_particle_pos.y][remove_particle_pos.x]) {
             removeParticle(remove_particle_pos);
-        } else {
-            printf("Et son type : %d\n", grid[remove_particle_pos.y][remove_particle_pos.x]);
         }
+
     }
 }
 

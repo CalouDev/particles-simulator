@@ -1,13 +1,22 @@
 #include "../include/button_manager.hpp"
 
+#include <windows.h>
+#include <filesystem>
+
 ButtonManager::ButtonManager()
     : current_particle_type(GroundType)
-    , outline_box(BTN_SZ + sf::Vector2f(10.f, 10.f))
+    , outline_box(OUTLINE_BTN_SZ)
     , font()
     , buttons()
 {
-    if (!font.openFromFile("font/pixelify_sans.ttf")) {
-        throw std::runtime_error("Error : Couldn't load font/pixelify_sans.ttf");
+    wchar_t buffer[MAX_PATH];
+    GetModuleFileNameW(nullptr, buffer, MAX_PATH);
+
+    std::filesystem::path bin_path = std::filesystem::path(buffer).parent_path();
+    std::filesystem::path font_path = bin_path / ".." / "font" / "pixelify_sans.ttf";
+
+    if (!font.openFromFile(font_path)) {
+        throw std::runtime_error("Error: Could not load font.\n");
     }
 
     for (int i = 0; i < N_PARTICLE_TYPES; ++i) {

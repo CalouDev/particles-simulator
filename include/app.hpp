@@ -5,8 +5,6 @@
 #include <SFML/Graphics.hpp>
 
 #include "../include/constants.hpp"
-#include "../include/particle.hpp"
-#include "../include/sand.hpp"
 #include "../include/particle_manager.hpp"
 #include "../include/button_manager.hpp"
 #include "../include/framerate.hpp"

@@ -7,8 +7,6 @@
 #include <SFML/Graphics.hpp>
 
 #include "constants.hpp"
-#include "sand.hpp"
-#include "ground.hpp"
 
 class ParticlesManager {
 private:
