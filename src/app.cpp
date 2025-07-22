@@ -22,10 +22,6 @@ App::App()
     ui_panel.setFillColor(CLR_PANEL);
 }
 
-App::~App() {
-    // In case of manual free alloc
-}
-
 sf::RenderWindow App::initWindowSettings() {
     sf::ContextSettings window_settings;
     window_settings.antiAliasingLevel = 8;

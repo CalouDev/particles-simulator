@@ -28,7 +28,6 @@ private:
     void draw();
 public:
     App();
-    ~App();
 
     void mainLoop();
 };
