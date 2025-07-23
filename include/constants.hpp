@@ -42,12 +42,15 @@ constexpr std::array<ParticleInfo, N_PARTICLE_TYPES> PARTICLES_DATA = {{
 
 constexpr int FONT_SZ = 20;
 
-constexpr sf::Vector2f POS_FPS = {10.f, 20.f};
+constexpr float BTN_VERTICAL_OFFSET = 60.f;
+
+constexpr sf::Vector2f POS_TEXT_FPS = {10.f, 20.f};
+// constexpr sf::Vector2f POS_TEXT_NUM_PARTICLES = {50.f, POS_TEXT_FPS.y};
 constexpr sf::Vector2f POS_UI_PANEL = {1130.f, 0.f};
-constexpr sf::Vector2f POS_GRID = {5.f, POS_FPS.y + FONT_SZ/2};
+constexpr sf::Vector2f POS_GRID = {5.f, POS_TEXT_FPS.y + FONT_SZ/2};
 
 constexpr int PARTICLE_SZ = 4;
-constexpr sf::Vector2f GRID_SZ = {(POS_UI_PANEL.x - 10.f), (WIN_Hf - POS_FPS.y - FONT_SZ/2 - 10.f)};
+constexpr sf::Vector2f GRID_SZ = {(POS_UI_PANEL.x - 10.f), (WIN_Hf - POS_TEXT_FPS.y - FONT_SZ/2 - 10.f)};
 constexpr sf::Vector2u GRID_SZu = {static_cast<unsigned int>(GRID_SZ.x), static_cast<unsigned int>(GRID_SZ.y)};
 constexpr sf::Vector2f BTN_SZ = {100.f, 40.f};
 constexpr sf::Vector2f OUTLINE_BTN_SZ = BTN_SZ + sf::Vector2f(10.f, 10.f);

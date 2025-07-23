@@ -8,13 +8,13 @@ App::App()
     , grid_delimitation(GRID_SZ)
     , ui_panel(sf::Vector2f(WIN_Wf - POS_UI_PANEL.x, WIN_Hf))
     , main_font()
-    , framerate(main_font)
+    , top_bar_text(main_font)
 {
     wchar_t buffer[MAX_PATH];
     GetModuleFileNameW(nullptr, buffer, MAX_PATH);
 
     std::filesystem::path bin_path = std::filesystem::path(buffer).parent_path();
-    std::filesystem::path font_path = bin_path / ".." / "font" / "pixelify_sans.ttf";
+    std::filesystem::path font_path = bin_path / ".." / "font" / "roboto.ttf";
 
     if (!main_font.openFromFile(font_path)) {
         throw std::runtime_error("Error: Could not load font.\n");
@@ -53,7 +53,7 @@ void App::mainLoop() {
         window.clear(CLR_BG);
         
         main_manager.eventHandler(mouse_coords, prev_mouse_coords, grid_delimitation, button_panel.getCurrentParticleType());
-        framerate.update();
+        top_bar_text.update(main_manager);
         main_manager.updateParticles(window);
         button_panel.update(mouse_coords);
 
@@ -71,7 +71,7 @@ void App::draw() {
     
     // UI - OVER
     button_panel.draw(window);
-    framerate.draw(window);
+    top_bar_text.draw(window);
 
     window.display();
 

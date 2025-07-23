@@ -7,7 +7,7 @@
 #include "../include/constants.hpp"
 #include "../include/particle_manager.hpp"
 #include "../include/button_manager.hpp"
-#include "../include/framerate.hpp"
+#include "../include/top_bar_text.hpp"
 
 class App {
 private:
@@ -19,7 +19,7 @@ private:
     sf::Font main_font;
     ParticlesManager main_manager;
     ButtonManager button_panel;
-    FrameRate framerate;
+    TopBarText top_bar_text;
 private:
     sf::RenderWindow initWindowSettings();
 

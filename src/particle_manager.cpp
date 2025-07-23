@@ -40,10 +40,12 @@ void ParticlesManager::interpolateParticles(sf::Vector2f current_mouse_coords, s
 
 void ParticlesManager::addParticles(ParticlesType particle, sf::Vector2i particle_coords) {
     grid[particle_coords.y][particle_coords.x] = particle;
+    num_particles++;
 }
 
 void ParticlesManager::removeParticle(sf::Vector2i particle_coords) {
     grid[particle_coords.y][particle_coords.x] = EmptyType;
+    num_particles--;
 }
 
 void ParticlesManager::drawParticles(sf::RenderWindow& window, ParticlesType particle, sf::Vector2f particle_pos) {
@@ -52,17 +54,6 @@ void ParticlesManager::drawParticles(sf::RenderWindow& window, ParticlesType par
     particle_shape.setFillColor(PARTICLES_DATA[static_cast<int>(particle)].clr);
     particle_shape.setPosition(sf::Vector2f(particle_pos.x, particle_pos.y) + POS_GRID);
     window.draw(particle_shape);
-}
-
-void ParticlesManager::updateParticles(sf::RenderWindow& window) { 
-    for (size_t i = 0; i < GRID_SZ.y / PARTICLE_SZ - 1; ++i) {
-        for (size_t j = 0; j < GRID_SZ.x / PARTICLE_SZ - 1; ++j) {
-            if (EmptyType != grid[i][j]) {
-                drawParticles(window, grid[i][j], sf::Vector2f(j, i) * static_cast<float>(PARTICLE_SZ));
-                updateParticleBehavior(sf::Vector2i(j, i));
-            }
-        }
-    }
 }
 
 void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
@@ -98,5 +89,16 @@ void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
             break;
         default:
             break;
+    }
+}
+
+void ParticlesManager::updateParticles(sf::RenderWindow& window) { 
+    for (size_t i = 0; i < GRID_SZ.y / PARTICLE_SZ - 1; ++i) {
+        for (size_t j = 0; j < GRID_SZ.x / PARTICLE_SZ - 1; ++j) {
+            if (EmptyType != grid[i][j]) {
+                drawParticles(window, grid[i][j], sf::Vector2f(j, i) * static_cast<float>(PARTICLE_SZ));
+                updateParticleBehavior(sf::Vector2i(j, i));
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ ButtonManager::ButtonManager()
     GetModuleFileNameW(nullptr, buffer, MAX_PATH);
 
     std::filesystem::path bin_path = std::filesystem::path(buffer).parent_path();
-    std::filesystem::path font_path = bin_path / ".." / "font" / "pixelify_sans.ttf";
+    std::filesystem::path font_path = bin_path / ".." / "font" / "roboto.ttf";
 
     if (!font.openFromFile(font_path)) {
         throw std::runtime_error("Error: Could not load font.\n");
@@ -22,7 +22,7 @@ ButtonManager::ButtonManager()
     for (int i = 0; i < N_PARTICLE_TYPES; ++i) {
         std::unique_ptr<Button> button = std::make_unique<Button>(font);
         button->setLabel(PARTICLES_DATA[i].name);
-        button->setPos(sf::Vector2f(1205.f, 30.f + 60.f * i));
+        button->setPos(sf::Vector2f(1205.f, POS_GRID.y + BTN_SZ.y/2 + BTN_VERTICAL_OFFSET * i));
         button->setClr(PARTICLES_DATA[i].clr);
         buttons.push_back(std::move(button));
     }
