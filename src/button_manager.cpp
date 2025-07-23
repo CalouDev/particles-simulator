@@ -7,6 +7,8 @@ ButtonManager::ButtonManager()
     : current_particle_type(GroundType)
     , outline_box(OUTLINE_BTN_SZ)
     , font()
+    , sprite_btn_play(texture_btn_play)
+    , sprite_btn_remove(texture_btn_remove)
     , buttons()
 {
     wchar_t buffer[MAX_PATH];
@@ -14,15 +16,26 @@ ButtonManager::ButtonManager()
 
     std::filesystem::path bin_path = std::filesystem::path(buffer).parent_path();
     std::filesystem::path font_path = bin_path / ".." / "font" / "roboto.ttf";
+    std::filesystem::path img_btn_play_path = bin_path / ".." / "images" / "button_play.png";
+    std::filesystem::path img_btn_remove_path = bin_path / ".." / "images" / "button_remove.png";
 
-    if (!font.openFromFile(font_path)) {
-        throw std::runtime_error("Error: Could not load font.\n");
+    if (!font.openFromFile(font_path) || !texture_btn_remove.loadFromFile(img_btn_remove_path) || !texture_btn_play.loadFromFile(img_btn_play_path)) {
+        throw std::runtime_error("Error: Could not load media.\n");
     }
+
+    sprite_btn_play.setTexture(texture_btn_play);
+    sprite_btn_play.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), TOP_BTN_SZ));
+    sprite_btn_remove.setTexture(texture_btn_remove);
+    sprite_btn_remove.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), TOP_BTN_SZ));
+    sprite_btn_play.setOrigin(sprite_btn_play.getLocalBounds().getCenter());
+    sprite_btn_remove.setOrigin(sprite_btn_remove.getLocalBounds().getCenter());
+    sprite_btn_remove.setPosition(POS_GRID + sf::Vector2f(GRID_SZ.x - static_cast<float>(TOP_BTN_SZ.x)/2, -static_cast<float>(TOP_BTN_SZ.y)/2 - 3.F));
+    sprite_btn_play.setPosition(sprite_btn_remove.getPosition() - sf::Vector2f(static_cast<float>(TOP_BTN_SZ.x) + 5.f, 0.f));
 
     for (int i = 0; i < N_PARTICLE_TYPES; ++i) {
         std::unique_ptr<Button> button = std::make_unique<Button>(font);
         button->setLabel(PARTICLES_DATA[i].name);
-        button->setPos(sf::Vector2f(1205.f, POS_GRID.y + BTN_SZ.y/2 + BTN_VERTICAL_OFFSET * i));
+        button->setPos(sf::Vector2f(1205.f, POS_GRID.y + OUTLINE_BTN_SZ.y/2 + BTN_VERTICAL_OFFSET * i));
         button->setClr(PARTICLES_DATA[i].clr);
         buttons.push_back(std::move(button));
     }
@@ -46,6 +59,8 @@ void ButtonManager::update(sf::Vector2f mouse_coords) {
 }
 
 void ButtonManager::draw(sf::RenderWindow& window) const {
+    window.draw(sprite_btn_play);
+    window.draw(sprite_btn_remove);
     window.draw(outline_box);
  
     for (int i = 0; i < N_PARTICLE_TYPES; ++i) {

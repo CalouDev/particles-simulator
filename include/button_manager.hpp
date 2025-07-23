@@ -13,6 +13,10 @@ private:
     ParticlesType current_particle_type;
     sf::RectangleShape outline_box;
     sf::Font font;
+    sf::Texture texture_btn_play;
+    sf::Texture texture_btn_remove;
+    sf::Sprite sprite_btn_play;
+    sf::Sprite sprite_btn_remove;
     std::vector<std::unique_ptr<Button>> buttons;
 public:
     ButtonManager();

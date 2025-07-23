@@ -28,7 +28,6 @@ constexpr sf::Color CLR_GROUND = {77, 53, 51, 255};
 constexpr sf::Color CLR_SAND = {194, 178, 128, 255};
 constexpr sf::Color CLR_WATER = {83, 132, 165, 255};
 constexpr sf::Color CLR_FIRE = {255, 51, 0, 255};
-constexpr sf::Color CLR_BTN_WHITE_HOVERED = {255, 255, 255, 180};
 
 constexpr int N_PARTICLE_TYPES = 4;
 constexpr sf::Color CLRS_PARTICLES[N_PARTICLE_TYPES] = {CLR_GROUND, CLR_SAND, CLR_WATER, CLR_FIRE};
@@ -42,14 +41,15 @@ constexpr std::array<ParticleInfo, N_PARTICLE_TYPES> PARTICLES_DATA = {{
 
 constexpr int FONT_SZ = 20;
 
+constexpr float TOP_BAR_TEXT_HORIZONTAL_OFFSET = 20.f;
 constexpr float BTN_VERTICAL_OFFSET = 60.f;
 
 constexpr sf::Vector2f POS_TEXT_FPS = {10.f, 20.f};
-// constexpr sf::Vector2f POS_TEXT_NUM_PARTICLES = {50.f, POS_TEXT_FPS.y};
 constexpr sf::Vector2f POS_UI_PANEL = {1130.f, 0.f};
 constexpr sf::Vector2f POS_GRID = {5.f, POS_TEXT_FPS.y + FONT_SZ/2};
 
 constexpr int PARTICLE_SZ = 4;
+constexpr sf::Vector2i TOP_BTN_SZ = {25, 25};
 constexpr sf::Vector2f GRID_SZ = {(POS_UI_PANEL.x - 10.f), (WIN_Hf - POS_TEXT_FPS.y - FONT_SZ/2 - 10.f)};
 constexpr sf::Vector2u GRID_SZu = {static_cast<unsigned int>(GRID_SZ.x), static_cast<unsigned int>(GRID_SZ.y)};
 constexpr sf::Vector2f BTN_SZ = {100.f, 40.f};

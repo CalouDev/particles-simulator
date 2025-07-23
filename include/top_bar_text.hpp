@@ -7,6 +7,7 @@
 
 class TopBarText {
 private:
+    bool init;
     sf::Clock clk;
     sf::Clock interval;
     sf::Font font;
