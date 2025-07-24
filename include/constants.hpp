@@ -49,7 +49,8 @@ constexpr sf::Vector2f POS_UI_PANEL = {1130.f, 0.f};
 constexpr sf::Vector2f POS_GRID = {5.f, POS_TEXT_FPS.y + FONT_SZ/2};
 
 constexpr int PARTICLE_SZ = 4;
-constexpr sf::Vector2i TOP_BTN_SZ = {25, 25};
+constexpr sf::Vector2f TOP_BTN_SZ = {25.f, 25.f};
+constexpr sf::Vector2i TOP_BTN_SZi = {25, 25};
 constexpr sf::Vector2f GRID_SZ = {(POS_UI_PANEL.x - 10.f), (WIN_Hf - POS_TEXT_FPS.y - FONT_SZ/2 - 10.f)};
 constexpr sf::Vector2u GRID_SZu = {static_cast<unsigned int>(GRID_SZ.x), static_cast<unsigned int>(GRID_SZ.y)};
 constexpr sf::Vector2f BTN_SZ = {100.f, 40.f};

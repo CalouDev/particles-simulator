@@ -3,7 +3,14 @@
 
 ParticlesManager::ParticlesManager() 
     : grid(GRID_SZ.y + 1, std::vector<ParticlesType>(GRID_SZ.x / PARTICLE_SZ + 1, EmptyType))
-{}
+{
+    for (size_t i = 0; i < grid.size(); ++i) {
+        for (size_t j = 0; j < grid[0].size(); ++j) {
+            if (EmptyType != grid[i][j])
+                printf("%d, ", grid[i][j]);
+        }
+    }
+}
 
 void ParticlesManager::eventHandler(sf::Vector2f mouse_coords, sf::Vector2f previous_mouse_coords, sf::RectangleShape grid_delimitation, ParticlesType particle) {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && grid_delimitation.getGlobalBounds().contains(mouse_coords)) {
@@ -20,7 +27,7 @@ void ParticlesManager::interpolateParticles(sf::Vector2f current_mouse_coords, s
     previous_mouse_coords -= POS_GRID;
     current_mouse_coords -= POS_GRID;
     sf::Vector2i icurrent_mouse_coords = sf::Vector2i(static_cast<int>(current_mouse_coords.x / PARTICLE_SZ) * PARTICLE_SZ, static_cast<int>(current_mouse_coords.y / PARTICLE_SZ) * PARTICLE_SZ);
-    if (grid_delimitation.getGlobalBounds().contains(current_mouse_coords + POS_GRID) && EmptyType == grid[icurrent_mouse_coords.y][icurrent_mouse_coords.x]) { 
+    if (grid_delimitation.getGlobalBounds().contains(current_mouse_coords + POS_GRID) && EmptyType == grid[icurrent_mouse_coords.y/PARTICLE_SZ][icurrent_mouse_coords.x/PARTICLE_SZ]) { 
         addParticles(particle, icurrent_mouse_coords / PARTICLE_SZ);
     }
 
@@ -44,6 +51,7 @@ void ParticlesManager::addParticles(ParticlesType particle, sf::Vector2i particl
 }
 
 void ParticlesManager::removeParticle(sf::Vector2i particle_coords) {
+    printf("remove called at %d;%d, particles is %d\n", particle_coords.x, particle_coords.y, getParticleAtPos(particle_coords));
     grid[particle_coords.y][particle_coords.x] = EmptyType;
     num_particles--;
 }
@@ -92,7 +100,7 @@ void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
     }
 }
 
-void ParticlesManager::updateParticles(sf::RenderWindow& window) { 
+void ParticlesManager::updateParticles(sf::RenderWindow& window) {
     for (size_t i = 0; i < GRID_SZ.y / PARTICLE_SZ - 1; ++i) {
         for (size_t j = 0; j < GRID_SZ.x / PARTICLE_SZ - 1; ++j) {
             if (EmptyType != grid[i][j]) {

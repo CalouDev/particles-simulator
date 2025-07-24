@@ -4,11 +4,14 @@
 #include <filesystem>
 
 ButtonManager::ButtonManager()
-    : current_particle_type(GroundType)
+    : removing(false)
+    , current_particle_type(GroundType)
     , outline_box(OUTLINE_BTN_SZ)
     , font()
     , sprite_btn_play(texture_btn_play)
     , sprite_btn_remove(texture_btn_remove)
+    , btn_play(std::make_unique<Button>(font))
+    , btn_remove(std::make_unique<Button>(font))
     , buttons()
 {
     wchar_t buffer[MAX_PATH];
@@ -23,14 +26,22 @@ ButtonManager::ButtonManager()
         throw std::runtime_error("Error: Could not load media.\n");
     }
 
+    btn_remove->setPos(POS_GRID + sf::Vector2f(GRID_SZ.x - TOP_BTN_SZ.x/2, -TOP_BTN_SZ.y/2 - 3.F));
+    btn_remove->setSz(TOP_BTN_SZ);
+    btn_remove->setClr(sf::Color::Transparent);
+
+    btn_play->setPos(btn_remove->getPos() - sf::Vector2f(TOP_BTN_SZ.x + 5.f, 0.f));
+    btn_play->setSz(TOP_BTN_SZ);
+    btn_play->setClr(sf::Color::Transparent);
+
     sprite_btn_play.setTexture(texture_btn_play);
-    sprite_btn_play.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), TOP_BTN_SZ));
+    sprite_btn_play.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), TOP_BTN_SZi));
     sprite_btn_remove.setTexture(texture_btn_remove);
-    sprite_btn_remove.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), TOP_BTN_SZ));
+    sprite_btn_remove.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), TOP_BTN_SZi));
     sprite_btn_play.setOrigin(sprite_btn_play.getLocalBounds().getCenter());
     sprite_btn_remove.setOrigin(sprite_btn_remove.getLocalBounds().getCenter());
-    sprite_btn_remove.setPosition(POS_GRID + sf::Vector2f(GRID_SZ.x - static_cast<float>(TOP_BTN_SZ.x)/2, -static_cast<float>(TOP_BTN_SZ.y)/2 - 3.F));
-    sprite_btn_play.setPosition(sprite_btn_remove.getPosition() - sf::Vector2f(static_cast<float>(TOP_BTN_SZ.x) + 5.f, 0.f));
+    sprite_btn_remove.setPosition(btn_remove->getPos());
+    sprite_btn_play.setPosition(btn_play->getPos());
 
     for (int i = 0; i < N_PARTICLE_TYPES; ++i) {
         std::unique_ptr<Button> button = std::make_unique<Button>(font);
@@ -47,7 +58,28 @@ ButtonManager::ButtonManager()
     outline_box.setOutlineThickness(1);
 }
 
-void ButtonManager::update(sf::Vector2f mouse_coords) {
+void ButtonManager::update(sf::Vector2f mouse_coords, ParticlesManager manager) {
+    btn_play->update(mouse_coords);
+    btn_remove->update(mouse_coords);
+
+    if (!removing && btn_remove->getIsPressed()) {
+        removing = true;
+
+        for (size_t i = 0; i < GRID_SZ.y && manager.getNumParticles() > 0; ++i) {
+            for (size_t j = 0; j < (GRID_SZ.x / PARTICLE_SZ) && manager.getNumParticles() > 0; ++j) {
+                if (EmptyType != manager.getParticleAtPos(sf::Vector2i(j, i))) {
+                    manager.removeParticle(sf::Vector2i(j, i));
+                }
+            }
+        }
+
+        removing = false;
+    }
+
+    if (btn_play->getIsPressed()) {
+        //
+    }
+
     for (int i = 0; i < N_PARTICLE_TYPES; ++i) {
         buttons[i]->update(mouse_coords);
 
@@ -59,6 +91,8 @@ void ButtonManager::update(sf::Vector2f mouse_coords) {
 }
 
 void ButtonManager::draw(sf::RenderWindow& window) const {
+    btn_play->draw(window);
+    btn_remove->draw(window);
     window.draw(sprite_btn_play);
     window.draw(sprite_btn_remove);
     window.draw(outline_box);

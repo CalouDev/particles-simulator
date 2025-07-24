@@ -33,6 +33,7 @@ public:
     void setClr(sf::Color _clr);
     void setLabel(std::string_view _label);
     void setPos(sf::Vector2f pos);
+    void setSz(sf::Vector2f sz);
 };
 
 #endif

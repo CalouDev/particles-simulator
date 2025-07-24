@@ -23,7 +23,8 @@ public:
     void updateParticleBehavior(sf::Vector2i particle_pos);
     void updateParticles(sf::RenderWindow& window);
 
-    int getNumParticles() { return num_particles; }
+    ParticlesType getParticleAtPos(sf::Vector2i pos) const { return grid[pos.y][pos.x]; }
+    int getNumParticles() const { return num_particles; }
 };
 
 #endif

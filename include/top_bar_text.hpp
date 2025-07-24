@@ -16,9 +16,9 @@ private:
 public:
     TopBarText(const sf::Font& font);
 
-    void updateNumParticlesText(ParticlesManager& manager);
+    void updateNumParticlesText(ParticlesManager manager);
     void updateFramerate();
-    void update(ParticlesManager& manager);
+    void update(ParticlesManager manager);
     void draw(sf::RenderWindow& window);
 };
 

@@ -6,7 +6,7 @@ Button::Button(const sf::Font& pixel_font)
     : is_hovered(false)
     , is_pressed(false)
     , font(pixel_font)
-    , text(font, "N/A", FONT_SZ)
+    , text(font, "", FONT_SZ)
 {
     box.setSize(BTN_SZ);
     box.setOrigin(box.getGeometricCenter());
@@ -60,4 +60,11 @@ void Button::setPos(sf::Vector2f pos) {
     box.setPosition(pos);
     white_box.setPosition(pos);
     text.setPosition(pos);
+}
+
+void Button::setSz(sf::Vector2f sz) {
+    box.setSize(sz);
+    box.setOrigin(box.getGeometricCenter());
+    white_box.setSize(sz);
+    white_box.setOrigin(white_box.getGeometricCenter());
 }

@@ -16,7 +16,7 @@ TopBarText::TopBarText(const sf::Font& font)
     num_particles_text.setFillColor(sf::Color::White);
 }
 
-void TopBarText::updateNumParticlesText(ParticlesManager& manager) {
+void TopBarText::updateNumParticlesText(ParticlesManager manager) {
     num_particles_text.setString("number of particles : " + std::to_string(manager.getNumParticles()));
 }
 
@@ -32,7 +32,7 @@ void TopBarText::updateFramerate() {
     }
 }
 
-void TopBarText::update(ParticlesManager& manager) {
+void TopBarText::update(ParticlesManager manager) {
     updateNumParticlesText(manager);
     updateFramerate();
 }
