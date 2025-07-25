@@ -81,16 +81,16 @@ void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
             if (EmptyType == grid[y + 1][x]) {
                 std::swap(grid[y][x], grid[y + 1][x]);
             } else {
-                int dir = ((rand() % 2) ? -1 : 1);
+                int rand_dir = ((rand() % 2) ? -1 : 1);
 
-                if (y < GRID_SZ.y && (x + dir) < GRID_SZ.x && EmptyType == grid[y][x + dir]) {
-                    std::swap(grid[y][x], grid[y][x + dir]);
-                } else if (y < GRID_SZ.y && (x - dir) < GRID_SZ.x && EmptyType == grid[y][x - dir]) {
-                    std::swap(grid[y][x], grid[y][x - dir]);
-                } else if ((y + 1) < GRID_SZ.y && (x + dir) < GRID_SZ.x && EmptyType == grid[y + 1][x + dir] && GroundType != grid[y][x + dir]) {
-                    std::swap(grid[y][x], grid[y + 1][x + dir]);
-                } else if ((y + 1) < GRID_SZ.y && (x - dir) < GRID_SZ.x && EmptyType == grid[y + 1][x - dir] && GroundType != grid[y][x - dir]) {
-                    std::swap(grid[y][x], grid[y + 1][x - dir]);
+                if (y < GRID_SZ.y && (x + rand_dir) < GRID_SZ.x && EmptyType == grid[y][x + rand_dir]) {
+                    std::swap(grid[y][x], grid[y][x + rand_dir]);
+                } else if (y < GRID_SZ.y && (x - rand_dir) < GRID_SZ.x && EmptyType == grid[y][x - rand_dir]) {
+                    std::swap(grid[y][x], grid[y][x - rand_dir]);
+                } else if ((y + 1) < GRID_SZ.y && (x + rand_dir) < GRID_SZ.x && EmptyType == grid[y + 1][x + rand_dir] && GroundType != grid[y][x + rand_dir]) {
+                    std::swap(grid[y][x], grid[y + 1][x + rand_dir]);
+                } else if ((y + 1) < GRID_SZ.y && (x - rand_dir) < GRID_SZ.x && EmptyType == grid[y + 1][x - rand_dir] && GroundType != grid[y][x - rand_dir]) {
+                    std::swap(grid[y][x], grid[y + 1][x - rand_dir]);
                 }
             }
             break;

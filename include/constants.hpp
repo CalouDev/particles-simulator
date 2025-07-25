@@ -27,16 +27,18 @@ constexpr sf::Color CLR_PANEL = {28, 28, 28, 255};
 constexpr sf::Color CLR_GROUND = {77, 53, 51, 255};
 constexpr sf::Color CLR_SAND = {194, 178, 128, 255};
 constexpr sf::Color CLR_WATER = {83, 132, 165, 255};
+constexpr sf::Color CLR_POWDER = {72, 71, 83, 255};
 constexpr sf::Color CLR_FIRE = {255, 51, 0, 255};
 
-constexpr int N_PARTICLE_TYPES = 4;
-constexpr sf::Color CLRS_PARTICLES[N_PARTICLE_TYPES] = {CLR_GROUND, CLR_SAND, CLR_WATER, CLR_FIRE};
-constexpr std::string_view NAMES_PARTICLES[N_PARTICLE_TYPES] = {"Ground", "Sand", "Water", "Fire"};
+constexpr int N_PARTICLE_TYPES = 5;
+constexpr sf::Color CLRS_PARTICLES[N_PARTICLE_TYPES] = {CLR_GROUND, CLR_SAND, CLR_WATER, CLR_POWDER, CLR_FIRE};
+constexpr std::string_view NAMES_PARTICLES[N_PARTICLE_TYPES] = {"Ground", "Sand", "Water", "Powder", "Fire"};
 constexpr std::array<ParticleInfo, N_PARTICLE_TYPES> PARTICLES_DATA = {{
     {CLR_GROUND, "Ground"},
     {CLR_SAND,   "Sand"},
     {CLR_WATER,  "Water"},
-    {CLR_FIRE,   "Fire"},
+    {CLR_POWDER, "Powder"},
+    {CLR_FIRE,   "Fire"}
 }};
 
 constexpr int FONT_SZ = 20;
