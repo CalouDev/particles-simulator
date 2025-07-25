@@ -54,7 +54,7 @@ void App::mainLoop() {
         
         main_manager.eventHandler(mouse_coords, prev_mouse_coords, grid_delimitation, button_panel.getCurrentParticleType());
         top_bar_text.update(main_manager);
-        main_manager.updateParticles(window);
+        main_manager.updateParticles(window, button_panel);
         button_panel.update(mouse_coords, main_manager);
 
         draw();

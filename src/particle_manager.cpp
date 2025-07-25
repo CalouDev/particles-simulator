@@ -99,12 +99,14 @@ void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
     }
 }
 
-void ParticlesManager::updateParticles(sf::RenderWindow& window) {
+void ParticlesManager::updateParticles(sf::RenderWindow& window, ButtonManager& manager) {
     for (size_t i = 0; i < GRID_SZ.y / PARTICLE_SZ - 1; ++i) {
         for (size_t j = 0; j < GRID_SZ.x / PARTICLE_SZ - 1; ++j) {
             if (EmptyType != grid[i][j]) {
                 drawParticles(window, grid[i][j], sf::Vector2f(j, i) * static_cast<float>(PARTICLE_SZ));
-                updateParticleBehavior(sf::Vector2i(j, i));
+                if (manager.getPlaying()) {
+                    updateParticleBehavior(sf::Vector2i(j, i));
+                }
             }
         }
     }

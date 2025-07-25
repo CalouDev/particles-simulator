@@ -3,8 +3,10 @@
 #include <windows.h>
 #include <filesystem>
 
+#include "../include/particle_manager.hpp"
+
 ButtonManager::ButtonManager()
-    : removing(false)
+    : playing(true)
     , current_particle_type(GroundType)
     , outline_box(OUTLINE_BTN_SZ)
     , font()
@@ -73,7 +75,13 @@ void ButtonManager::update(sf::Vector2f mouse_coords, ParticlesManager& manager)
     }
 
     if (btn_play->getIsPressed()) {
-        //
+        playing = !playing;
+
+        if (playing) {
+            sprite_btn_play.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), TOP_BTN_SZi));
+        } else {
+            sprite_btn_play.setTextureRect(sf::IntRect(sf::Vector2i(25, 0), TOP_BTN_SZi));
+        }
     }
 
     for (int i = 0; i < N_PARTICLE_TYPES; ++i) {
@@ -96,10 +104,6 @@ void ButtonManager::draw(sf::RenderWindow& window) const {
     for (int i = 0; i < N_PARTICLE_TYPES; ++i) {
         buttons[i]->draw(window);
     }
-}
-
-ParticlesType ButtonManager::getCurrentParticleType() const {
-    return current_particle_type;
 }
 
 void ButtonManager::setCurrentParticleType(ParticlesType new_particle_type) {

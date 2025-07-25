@@ -7,11 +7,12 @@
 
 #include "button.hpp"
 #include "constants.hpp"
-#include "particle_manager.hpp"
+
+class ParticlesManager;
 
 class ButtonManager {
 private:
-    bool removing;
+    bool playing;
     ParticlesType current_particle_type;
     sf::RectangleShape outline_box;
     sf::Font font;
@@ -29,7 +30,8 @@ public:
     void update(sf::Vector2f mouse_coords, ParticlesManager& manager);
     void draw(sf::RenderWindow& window) const;
 
-    ParticlesType getCurrentParticleType() const;
+    ParticlesType getCurrentParticleType() const { return current_particle_type; };
+    bool getPlaying() const { return playing; }
 
     void setCurrentParticleType(ParticlesType new_particle_type);
 };

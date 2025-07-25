@@ -1,5 +1,5 @@
-#ifndef SPAWNER_HPP
-#define SPAWNER_HPP
+#ifndef PARTICLE_MANAGER_HPP
+#define PARTICLE_MANAGER_HPP
 
 #include <vector>
 #include <cmath>
@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "constants.hpp"
+#include "button_manager.hpp"
 
 class ParticlesManager {
 private:
@@ -21,7 +22,7 @@ public:
     void addParticles(ParticlesType particle, sf::Vector2i particle_coords);
     void removeParticle(sf::Vector2i particle_coords);
     void updateParticleBehavior(sf::Vector2i particle_pos);
-    void updateParticles(sf::RenderWindow& window);
+    void updateParticles(sf::RenderWindow& window, ButtonManager& manager);
 
     ParticlesType getParticleAtPos(sf::Vector2i pos) const { return grid[pos.y][pos.x]; }
     int getNumParticles() const { return num_particles; }
