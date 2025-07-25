@@ -58,13 +58,11 @@ ButtonManager::ButtonManager()
     outline_box.setOutlineThickness(1);
 }
 
-void ButtonManager::update(sf::Vector2f mouse_coords, ParticlesManager manager) {
+void ButtonManager::update(sf::Vector2f mouse_coords, ParticlesManager& manager) {
     btn_play->update(mouse_coords);
     btn_remove->update(mouse_coords);
 
-    if (!removing && btn_remove->getIsPressed()) {
-        removing = true;
-
+    if (btn_remove->getIsPressed()) {
         for (size_t i = 0; i < GRID_SZ.y && manager.getNumParticles() > 0; ++i) {
             for (size_t j = 0; j < (GRID_SZ.x / PARTICLE_SZ) && manager.getNumParticles() > 0; ++j) {
                 if (EmptyType != manager.getParticleAtPos(sf::Vector2i(j, i))) {
@@ -72,8 +70,6 @@ void ButtonManager::update(sf::Vector2f mouse_coords, ParticlesManager manager) 
                 }
             }
         }
-
-        removing = false;
     }
 
     if (btn_play->getIsPressed()) {

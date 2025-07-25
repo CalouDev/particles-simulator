@@ -51,7 +51,6 @@ void ParticlesManager::addParticles(ParticlesType particle, sf::Vector2i particl
 }
 
 void ParticlesManager::removeParticle(sf::Vector2i particle_coords) {
-    printf("remove called at %d;%d, particles is %d\n", particle_coords.x, particle_coords.y, getParticleAtPos(particle_coords));
     grid[particle_coords.y][particle_coords.x] = EmptyType;
     num_particles--;
 }

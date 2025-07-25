@@ -26,7 +26,7 @@ public:
     ButtonManager();
     ~ButtonManager() = default;
 
-    void update(sf::Vector2f mouse_coords, ParticlesManager manager);
+    void update(sf::Vector2f mouse_coords, ParticlesManager& manager);
     void draw(sf::RenderWindow& window) const;
 
     ParticlesType getCurrentParticleType() const;
