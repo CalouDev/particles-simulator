@@ -13,6 +13,7 @@ class ParticlesManager;
 class ButtonManager {
 private:
     bool playing;
+    bool btn_play_press_release;
     ParticlesType current_particle_type;
     sf::RectangleShape outline_box;
     sf::Font font;

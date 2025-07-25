@@ -7,6 +7,7 @@
 
 ButtonManager::ButtonManager()
     : playing(true)
+    , btn_play_press_release(true)
     , current_particle_type(GroundType)
     , outline_box(OUTLINE_BTN_SZ)
     , font()
@@ -74,14 +75,17 @@ void ButtonManager::update(sf::Vector2f mouse_coords, ParticlesManager& manager)
         }
     }
 
-    if (btn_play->getIsPressed()) {
+    if (btn_play->getIsPressed() && btn_play_press_release) {
         playing = !playing;
+        btn_play_press_release = false;
 
         if (playing) {
             sprite_btn_play.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), TOP_BTN_SZi));
         } else {
             sprite_btn_play.setTextureRect(sf::IntRect(sf::Vector2i(25, 0), TOP_BTN_SZi));
         }
+    } else if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        btn_play_press_release = true;
     }
 
     for (int i = 0; i < N_PARTICLE_TYPES; ++i) {
