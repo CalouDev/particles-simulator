@@ -71,9 +71,9 @@ void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
         case SandType:
             if ((y + 1) < GRID_SZ.y && x < GRID_SZ.x && EmptyType == grid[y + 1][x]) {
                 std::swap(grid[y][x], grid[y + 1][x]);
-            } else if ((y + 1) < GRID_SZ.y && (x - 1) < GRID_SZ.x && EmptyType == grid[y + 1][x - 1]) {
+            } else if ((y + 1) < GRID_SZ.y && (x - 1) < GRID_SZ.x && EmptyType == grid[y + 1][x - 1] && GroundType != grid[y][x - 1]) {
                 std::swap(grid[y][x], grid[y + 1][x - 1]);
-            } else if ((y + 1) < GRID_SZ.y && (x + 1) < GRID_SZ.x && EmptyType == grid[y + 1][x + 1]) {
+            } else if ((y + 1) < GRID_SZ.y && (x + 1) < GRID_SZ.x && EmptyType == grid[y + 1][x + 1] && GroundType != grid[y][x + 1]) {
                 std::swap(grid[y][x], grid[y + 1][x + 1]);
             }
             break;
@@ -87,9 +87,9 @@ void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
                     std::swap(grid[y][x], grid[y][x + dir]);
                 } else if (y < GRID_SZ.y && (x - dir) < GRID_SZ.x && EmptyType == grid[y][x - dir]) {
                     std::swap(grid[y][x], grid[y][x - dir]);
-                } else if ((y + 1) < GRID_SZ.y && (x + dir) < GRID_SZ.x && EmptyType == grid[y + 1][x + dir]) {
+                } else if ((y + 1) < GRID_SZ.y && (x + dir) < GRID_SZ.x && EmptyType == grid[y + 1][x + dir] && GroundType != grid[y][x + dir]) {
                     std::swap(grid[y][x], grid[y + 1][x + dir]);
-                } else if ((y + 1) < GRID_SZ.y && (x - dir) < GRID_SZ.x && EmptyType == grid[y + 1][x - dir]) {
+                } else if ((y + 1) < GRID_SZ.y && (x - dir) < GRID_SZ.x && EmptyType == grid[y + 1][x - dir] && GroundType != grid[y][x - dir]) {
                     std::swap(grid[y][x], grid[y + 1][x - dir]);
                 }
             }
