@@ -9,7 +9,8 @@ enum ParticlesType : short {
     SandType,
     WaterType,
     PowderType,
-    FireType
+    FireType,
+    SmokeType
 };
 
 
@@ -40,19 +41,27 @@ constexpr sf::Color CLR_POWDER3 = {60, 60, 70, 255};
 constexpr sf::Color CLR_FIRE = {255, 51, 0, 255};
 constexpr sf::Color CLR_FIRE2 = {255, 80, 30, 255};
 constexpr sf::Color CLR_FIRE3 = {200, 40, 0, 255};
+constexpr sf::Color CLR_FIRE_DARK = {130, 30, 0, 255};
+constexpr sf::Color CLR_FIRE_DARK2 = {100, 20, 0, 255};
+constexpr sf::Color CLR_FIRE_DARK3 = {80, 10, 5, 255};
+constexpr sf::Color CLR_SMOKE = {120, 120, 130, 160};
+constexpr sf::Color CLR_SMOKE2 = {150, 150, 160, 130};
+constexpr sf::Color CLR_SMOKE3 = {180, 180, 190, 100};
 
 struct ParticleInfo {
     std::array<sf::Color, 3> clr;
     std::string_view name;
+    int lifetime;
 };
 
-constexpr int N_PARTICLE_TYPES = 5;
+constexpr int N_PARTICLE_TYPES = 6;
 constexpr std::array<ParticleInfo, N_PARTICLE_TYPES> PARTICLES_DATA = {{
-    {{CLR_GROUND, CLR_GROUND2, CLR_GROUND3}, "Ground"},
-    {{CLR_SAND, CLR_SAND2, CLR_SAND3},   "Sand"},
-    {{CLR_WATER, CLR_WATER, CLR_WATER},  "Water"},
-    {{CLR_POWDER, CLR_POWDER2, CLR_POWDER3}, "Powder"},
-    {{CLR_FIRE, CLR_FIRE2, CLR_FIRE3},   "Fire"}
+    {{CLR_GROUND, CLR_GROUND2, CLR_GROUND3}, "Ground", -1},
+    {{CLR_SAND, CLR_SAND2, CLR_SAND3}, "Sand", -1},
+    {{CLR_WATER, CLR_WATER, CLR_WATER}, "Water", -1},
+    {{CLR_POWDER, CLR_POWDER2, CLR_POWDER3}, "Powder", -1},
+    {{CLR_FIRE, CLR_FIRE2, CLR_FIRE3}, "Fire", 25},
+    {{CLR_SMOKE, CLR_SMOKE2, CLR_SMOKE3}, "Smoke", -1}
 }};
 
 constexpr int FONT_SZ = 20;

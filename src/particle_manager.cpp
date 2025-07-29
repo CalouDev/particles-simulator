@@ -1,6 +1,8 @@
 #include "../include/particle_manager.hpp"
 #include "../include/constants.hpp"
 
+#include <algorithm>
+
 ParticlesManager::ParticlesManager() 
     : grid(GRID_SZ.y + 1, std::vector<ParticleCell>(GRID_SZ.x / PARTICLE_SZ + 1, ParticleCell({EmptyType, sf::Color::Transparent, -1})))
 {}
@@ -48,6 +50,8 @@ void ParticlesManager::addParticles(ParticlesType particle, sf::Vector2i particl
 
 void ParticlesManager::removeParticle(sf::Vector2i particle_coords) {
     grid[particle_coords.y][particle_coords.x].type = EmptyType;
+    grid[particle_coords.y][particle_coords.x].clr = sf::Color(sf::Color::Transparent);
+    grid[particle_coords.y][particle_coords.x].lifetime = 0;
     num_particles--;
 }
 
@@ -100,16 +104,50 @@ void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
             }
             break;
         case FireType:
-            for (int i = -1; i <= 1; ++i) {
-                for (int j = -1; j <= 1; ++j) {
-                    if (i != 0 || j != 0) {
-                        if ((y + i) < GRID_SZ.y && (x + j) < GRID_SZ.x && PowderType == grid[y + i][x + j].type) {
-                            int rand_clr_index = (rand() % 3);
+            grid[y][x].lifetime--;
+            if (grid[y][x].lifetime == 0) {
+                grid[y][x].type = SmokeType;
+                int fire_clr_index = 0;
+                for (int idx = 0; idx < 3; ++idx) {
+                    if (grid[y][x].clr == PARTICLES_DATA[FireType].clr[idx]) {
+                        fire_clr_index = idx;
+                        break;
+                    }
+                }
+                grid[y][x].clr = PARTICLES_DATA[SmokeType].clr[fire_clr_index];
+                grid[y][x].lifetime = -1;
+            } else if (grid[y][x].lifetime <= PARTICLES_DATA[FireType].lifetime/2) {
+                grid[y][x].clr = CLR_FIRE_DARK;
+                for (int i = -1; i <= 1; ++i) {
+                    for (int j = -1; j <= 1; ++j) {
+                        if (i != j) {
+                            if ((y + i) < GRID_SZ.y && (x + j) < GRID_SZ.x && PowderType == grid[y + i][x + j].type) {
+                                int rand_clr_index = (rand() % 3);
 
-                            grid[y + i][x + j].type = FireType;
-                            grid[y + i][x + j].clr = PARTICLES_DATA[FireType].clr[rand_clr_index];
+                                grid[y + i][x + j].type = FireType;
+                                grid[y + i][x + j].clr = PARTICLES_DATA[FireType].clr[rand_clr_index];
+                                grid[y + i][x + j].lifetime = PARTICLES_DATA[FireType].lifetime;
+                            }
                         }
                     }
+                }
+            }
+
+            break;
+        case SmokeType:
+            if ((y - 1) >= 0 && EmptyType == grid[y - 1][x].type) {
+                std::swap(grid[y][x], grid[y - 1][x]);
+            } else {
+                int rand_dir = ((rand() % 2) ? -1 : 1);
+
+                if (y < GRID_SZ.y && (x + rand_dir) < GRID_SZ.x && EmptyType == grid[y][x + rand_dir].type) {
+                    std::swap(grid[y][x], grid[y][x + rand_dir]);
+                } else if (y < GRID_SZ.y && (x - rand_dir) < GRID_SZ.x && EmptyType == grid[y][x - rand_dir].type) {
+                    std::swap(grid[y][x], grid[y][x - rand_dir]);
+                } else if ((y - 1) >= 0 && (x + rand_dir) < GRID_SZ.x && EmptyType == grid[y - 1][x + rand_dir].type && GroundType != grid[y][x + rand_dir].type) {
+                    std::swap(grid[y][x], grid[y - 1][x + rand_dir]);
+                } else if ((y - 1) >= 0 && (x - rand_dir) < GRID_SZ.x && EmptyType == grid[y - 1][x - rand_dir].type && GroundType != grid[y][x - rand_dir].type) {
+                    std::swap(grid[y][x], grid[y - 1][x - rand_dir]);
                 }
             }
             break;
