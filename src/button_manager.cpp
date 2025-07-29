@@ -50,7 +50,7 @@ ButtonManager::ButtonManager()
         std::unique_ptr<Button> button = std::make_unique<Button>(font);
         button->setLabel(PARTICLES_DATA[i].name);
         button->setPos(sf::Vector2f(1205.f, POS_GRID.y + OUTLINE_BTN_SZ.y/2 + BTN_VERTICAL_OFFSET * i));
-        button->setClr(PARTICLES_DATA[i].clr);
+        button->setClr(PARTICLES_DATA[i].clr[0]);
         buttons.push_back(std::move(button));
     }
 
@@ -68,7 +68,7 @@ void ButtonManager::update(sf::Vector2f mouse_coords, ParticlesManager& manager)
     if (btn_remove->getIsPressed()) {
         for (size_t i = 0; i < GRID_SZ.y && manager.getNumParticles() > 0; ++i) {
             for (size_t j = 0; j < (GRID_SZ.x / PARTICLE_SZ) && manager.getNumParticles() > 0; ++j) {
-                if (EmptyType != manager.getParticleAtPos(sf::Vector2i(j, i))) {
+                if (EmptyType != manager.getParticleAtPos(sf::Vector2i(j, i)).type) {
                     manager.removeParticle(sf::Vector2i(j, i));
                 }
             }
