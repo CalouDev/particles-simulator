@@ -1,7 +1,6 @@
 #ifndef APP_HPP
 #define APP_HPP
 
-#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
 #include "../include/constants.hpp"

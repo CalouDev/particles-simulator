@@ -26,9 +26,9 @@ public:
     void update(sf::Vector2f mouse_coords);
     void draw(sf::RenderWindow& window) const;
 
-    bool getIsHovered() const { return is_hovered; };
-    bool getIsPressed() const { return is_pressed; };
-    sf::Vector2f getPos() const { return box.getPosition(); }
+    inline bool getIsHovered() const { return is_hovered; };
+    inline bool getIsPressed() const { return is_pressed; };
+    inline sf::Vector2f getPos() const { return box.getPosition(); }
 
     void setClr(sf::Color _clr);
     void setLabel(std::string_view _label);

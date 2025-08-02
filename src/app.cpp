@@ -1,5 +1,6 @@
 #include "../include/app.hpp"
 
+#include <iostream>
 #include <windows.h>
 #include <filesystem>
 
@@ -36,6 +37,7 @@ sf::RenderWindow App::initWindowSettings() {
     return sf::RenderWindow(
         sf::VideoMode(sf::Vector2u(WIN_W, WIN_H)),
         "Particles simulator - SFML " + std::to_string(SFML_VERSION_MAJOR) + "." + std::to_string(SFML_VERSION_MINOR) + "." + std::to_string(SFML_VERSION_PATCH),
+        sf::Style::Default,
         sf::State::Windowed,
         window_settings);
 }
@@ -47,12 +49,16 @@ void App::mainLoop() {
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
+            } else if (const auto* mouse_wheel = event->getIf<sf::Event::MouseWheelScrolled>()) {
+                if (mouse_wheel->wheel == sf::Mouse::Wheel::Vertical) {
+                    main_manager.setCursorSize(sf::Vector2f(mouse_wheel->delta, mouse_wheel->delta));
+                }
             }
         }
 
         window.clear(CLR_BG);
         
-        main_manager.eventHandler(mouse_coords, prev_mouse_coords, grid_delimitation, button_panel.getCurrentParticleType());
+        main_manager.eventHandler(window, mouse_coords, prev_mouse_coords, grid_delimitation, button_panel.getCurrentParticleType());
         top_bar_text.update(main_manager);
         main_manager.updateParticles(window, button_panel);
         button_panel.update(mouse_coords, main_manager);

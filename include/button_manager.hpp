@@ -31,8 +31,8 @@ public:
     void update(sf::Vector2f mouse_coords, ParticlesManager& manager);
     void draw(sf::RenderWindow& window) const;
 
-    ParticlesType getCurrentParticleType() const { return current_particle_type; };
-    bool getPlaying() const { return playing; }
+    inline ParticlesType getCurrentParticleType() const { return current_particle_type; };
+    inline bool getPlaying() const { return playing; }
 
     void setCurrentParticleType(ParticlesType new_particle_type);
 };

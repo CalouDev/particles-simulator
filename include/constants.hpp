@@ -26,6 +26,9 @@ constexpr float WIN_Wf = static_cast<float>(WIN_W);
 constexpr float WIN_Hf = static_cast<float>(WIN_H);
 constexpr int FRAMERATE = 120;
 
+constexpr int INFINITE_LIFETIME = -1;
+constexpr int FIRE_LIFETIME = 25;
+
 constexpr sf::Color CLR_BG = {16, 18, 28, 255};
 constexpr sf::Color CLR_PANEL = {28, 28, 28, 255};
 constexpr sf::Color CLR_GROUND = {77, 53, 51, 255};
@@ -56,12 +59,12 @@ struct ParticleInfo {
 
 constexpr int N_PARTICLE_TYPES = 6;
 constexpr std::array<ParticleInfo, N_PARTICLE_TYPES> PARTICLES_DATA = {{
-    {{CLR_GROUND, CLR_GROUND2, CLR_GROUND3}, "Ground", -1},
-    {{CLR_SAND, CLR_SAND2, CLR_SAND3}, "Sand", -1},
-    {{CLR_WATER, CLR_WATER, CLR_WATER}, "Water", -1},
-    {{CLR_POWDER, CLR_POWDER2, CLR_POWDER3}, "Powder", -1},
-    {{CLR_FIRE, CLR_FIRE2, CLR_FIRE3}, "Fire", 25},
-    {{CLR_SMOKE, CLR_SMOKE2, CLR_SMOKE3}, "Smoke", -1}
+    {{CLR_GROUND, CLR_GROUND2, CLR_GROUND3}, "Ground", INFINITE_LIFETIME},
+    {{CLR_SAND, CLR_SAND2, CLR_SAND3}, "Sand", INFINITE_LIFETIME},
+    {{CLR_WATER, CLR_WATER, CLR_WATER}, "Water", INFINITE_LIFETIME},
+    {{CLR_POWDER, CLR_POWDER2, CLR_POWDER3}, "Powder", INFINITE_LIFETIME},
+    {{CLR_FIRE, CLR_FIRE2, CLR_FIRE3}, "Fire", FIRE_LIFETIME},
+    {{CLR_SMOKE, CLR_SMOKE2, CLR_SMOKE3}, "Smoke", INFINITE_LIFETIME}
 }};
 
 constexpr int FONT_SZ = 20;
@@ -74,6 +77,8 @@ constexpr sf::Vector2f POS_UI_PANEL = {1130.f, 0.f};
 constexpr sf::Vector2f POS_GRID = {5.f, POS_TEXT_FPS.y + FONT_SZ/2};
 
 constexpr int PARTICLE_SZ = 4;
+constexpr sf::Vector2f MIN_CURSOR_SZ = {2.f, 2.f};
+constexpr sf::Vector2f MAX_CURSOR_SZ = {48.f, 48.f};
 constexpr sf::Vector2f TOP_BTN_SZ = {25.f, 25.f};
 constexpr sf::Vector2i TOP_BTN_SZi = {25, 25};
 constexpr sf::Vector2f GRID_SZ = {(POS_UI_PANEL.x - 10.f), (WIN_Hf - POS_TEXT_FPS.y - FONT_SZ/2 - 10.f)};

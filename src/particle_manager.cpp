@@ -4,17 +4,35 @@
 #include <algorithm>
 
 ParticlesManager::ParticlesManager() 
-    : grid(GRID_SZ.y + 1, std::vector<ParticleCell>(GRID_SZ.x / PARTICLE_SZ + 1, ParticleCell({EmptyType, sf::Color::Transparent, -1})))
-{}
+    : num_particles(0)
+    , is_mouse_visible(true)
+    , cursor(sf::Vector2f(6.f, 6.f))
+    , grid(GRID_SZ.y + 1, std::vector<ParticleCell>(GRID_SZ.x / PARTICLE_SZ + 1, ParticleCell({EmptyType, sf::Color::Transparent, -1})))
+{
+    cursor.setOrigin(cursor.getGeometricCenter());
+    cursor.setFillColor(sf::Color::Transparent);
+    cursor.setOutlineColor(sf::Color::White);
+    cursor.setOutlineThickness(1);
+}
 
-void ParticlesManager::eventHandler(sf::Vector2f mouse_coords, sf::Vector2f previous_mouse_coords, sf::RectangleShape grid_delimitation, ParticlesType particle) {
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && grid_delimitation.getGlobalBounds().contains(mouse_coords)) {
-        interpolateParticles(mouse_coords, previous_mouse_coords, grid_delimitation, particle);
+void ParticlesManager::eventHandler(sf::RenderWindow& window, sf::Vector2f mouse_coords, sf::Vector2f previous_mouse_coords, sf::RectangleShape grid_delimitation, ParticlesType particle) {
+    if (grid_delimitation.getGlobalBounds().contains(mouse_coords)) {
+        cursor.setPosition(sf::Vector2f(static_cast<int>(mouse_coords.x / PARTICLE_SZ) * PARTICLE_SZ, static_cast<int>(mouse_coords.y / PARTICLE_SZ) * PARTICLE_SZ));
+
+        window.setMouseCursorVisible(false);
+        is_mouse_visible = false;
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            interpolateParticles(mouse_coords, previous_mouse_coords, grid_delimitation, particle);
+        }
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
         sf::Vector2i remove_particle_pos(static_cast<int>(mouse_coords.x - POS_GRID.x) / PARTICLE_SZ, static_cast<int>(mouse_coords.y - POS_GRID.y) / PARTICLE_SZ);
         if (EmptyType != grid[remove_particle_pos.y][remove_particle_pos.x].type) {
             removeParticle(remove_particle_pos);
         }
+    } else {
+        window.setMouseCursorVisible(true);
+        is_mouse_visible = true;
     }
 }
 
@@ -106,28 +124,25 @@ void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
         case FireType:
             grid[y][x].lifetime--;
             if (grid[y][x].lifetime == 0) {
+                if (grid[y][x].clr == CLR_FIRE_DARK) grid[y][x].clr = PARTICLES_DATA[SmokeType].clr[0];
+                else if (grid[y][x].clr == CLR_FIRE_DARK2) grid[y][x].clr = PARTICLES_DATA[SmokeType].clr[1];
+                else grid[y][x].clr = PARTICLES_DATA[SmokeType].clr[2];
+
                 grid[y][x].type = SmokeType;
-                int fire_clr_index = 0;
-                for (int idx = 0; idx < 3; ++idx) {
-                    if (grid[y][x].clr == PARTICLES_DATA[FireType].clr[idx]) {
-                        fire_clr_index = idx;
-                        break;
-                    }
-                }
-                grid[y][x].clr = PARTICLES_DATA[SmokeType].clr[fire_clr_index];
-                grid[y][x].lifetime = -1;
+                grid[y][x].lifetime = INFINITE_LIFETIME;
             } else if (grid[y][x].lifetime <= PARTICLES_DATA[FireType].lifetime/2) {
-                grid[y][x].clr = CLR_FIRE_DARK;
+                if (grid[y][x].clr == CLR_FIRE) grid[y][x].clr = CLR_FIRE_DARK;
+                else if (grid[y][x].clr == CLR_FIRE2) grid[y][x].clr = CLR_FIRE_DARK2;
+                else grid[y][x].clr = CLR_FIRE_DARK3;
+                
                 for (int i = -1; i <= 1; ++i) {
                     for (int j = -1; j <= 1; ++j) {
-                        if (i != j) {
-                            if ((y + i) < GRID_SZ.y && (x + j) < GRID_SZ.x && PowderType == grid[y + i][x + j].type) {
-                                int rand_clr_index = (rand() % 3);
+                        if ((y + i) < GRID_SZ.y && (x + j) < GRID_SZ.x && PowderType == grid[y + i][x + j].type) {
+                            int rand_clr_index = (rand() % 3);
 
-                                grid[y + i][x + j].type = FireType;
-                                grid[y + i][x + j].clr = PARTICLES_DATA[FireType].clr[rand_clr_index];
-                                grid[y + i][x + j].lifetime = PARTICLES_DATA[FireType].lifetime;
-                            }
+                            grid[y + i][x + j].type = FireType;
+                            grid[y + i][x + j].clr = PARTICLES_DATA[FireType].clr[rand_clr_index];
+                            grid[y + i][x + j].lifetime = PARTICLES_DATA[FireType].lifetime;
                         }
                     }
                 }
@@ -161,10 +176,22 @@ void ParticlesManager::updateParticles(sf::RenderWindow& window, ButtonManager& 
         for (size_t j = 0; j < GRID_SZ.x / PARTICLE_SZ - 1; ++j) {
             if (EmptyType != grid[i][j].type) {
                 drawParticles(window, grid[i][j].clr, sf::Vector2f(j, i) * static_cast<float>(PARTICLE_SZ));
+                
                 if (manager.getPlaying()) {
                     updateParticleBehavior(sf::Vector2i(j, i));
                 }
             }
         }
     }
+
+    if (!is_mouse_visible) {
+        window.draw(cursor);
+    }
+}
+
+void ParticlesManager::setCursorSize(sf::Vector2f sz) {
+    sf::Vector2f cursor_sz = cursor.getSize();
+
+    cursor.setSize(sf::Vector2f(std::clamp(sz.x + cursor_sz.x, MIN_CURSOR_SZ.x, MAX_CURSOR_SZ.x), std::clamp(sz.y + cursor_sz.y, MIN_CURSOR_SZ.y, MAX_CURSOR_SZ.y)));
+    cursor.setOrigin(cursor.getGeometricCenter());
 }
