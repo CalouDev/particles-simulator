@@ -75,6 +75,7 @@ constexpr float BTN_VERTICAL_OFFSET = 60.f;
 constexpr sf::Vector2f POS_TEXT_FPS = {10.f, 20.f};
 constexpr sf::Vector2f POS_UI_PANEL = {1130.f, 0.f};
 constexpr sf::Vector2f POS_GRID = {5.f, POS_TEXT_FPS.y + FONT_SZ/2};
+constexpr sf::Vector2i POS_GRIDi = {static_cast<int>(POS_GRID.x), static_cast<int>(POS_GRID.y)};
 
 constexpr int PARTICLE_SZ = 4;
 constexpr sf::Vector2f MIN_CURSOR_SZ = {2.f, 2.f};

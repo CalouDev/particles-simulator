@@ -51,7 +51,7 @@ void App::mainLoop() {
                 window.close();
             } else if (const auto* mouse_wheel = event->getIf<sf::Event::MouseWheelScrolled>()) {
                 if (mouse_wheel->wheel == sf::Mouse::Wheel::Vertical) {
-                    main_manager.setCursorSize(sf::Vector2f(mouse_wheel->delta, mouse_wheel->delta));
+                    main_manager.setCursorSize(sf::Vector2f(mouse_wheel->delta * PARTICLE_SZ, mouse_wheel->delta * PARTICLE_SZ));
                 }
             }
         }

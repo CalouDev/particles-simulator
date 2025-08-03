@@ -18,17 +18,16 @@ ParticlesManager::ParticlesManager()
 void ParticlesManager::eventHandler(sf::RenderWindow& window, sf::Vector2f mouse_coords, sf::Vector2f previous_mouse_coords, sf::RectangleShape grid_delimitation, ParticlesType particle) {
     if (grid_delimitation.getGlobalBounds().contains(mouse_coords)) {
         cursor.setPosition(sf::Vector2f(static_cast<int>(mouse_coords.x / PARTICLE_SZ) * PARTICLE_SZ, static_cast<int>(mouse_coords.y / PARTICLE_SZ) * PARTICLE_SZ));
-
         window.setMouseCursorVisible(false);
         is_mouse_visible = false;
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
             interpolateParticles(mouse_coords, previous_mouse_coords, grid_delimitation, particle);
-        }
-    } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-        sf::Vector2i remove_particle_pos(static_cast<int>(mouse_coords.x - POS_GRID.x) / PARTICLE_SZ, static_cast<int>(mouse_coords.y - POS_GRID.y) / PARTICLE_SZ);
-        if (EmptyType != grid[remove_particle_pos.y][remove_particle_pos.x].type) {
-            removeParticle(remove_particle_pos);
+        } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
+            sf::Vector2i remove_particle_pos(static_cast<int>(mouse_coords.x - POS_GRID.x) / PARTICLE_SZ, static_cast<int>(mouse_coords.y - POS_GRID.y) / PARTICLE_SZ);
+            if (EmptyType != grid[remove_particle_pos.y][remove_particle_pos.x].type) {
+                removeParticle(remove_particle_pos);
+            }
         }
     } else {
         window.setMouseCursorVisible(true);
@@ -123,7 +122,9 @@ void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
             break;
         case FireType:
             grid[y][x].lifetime--;
-            if (grid[y][x].lifetime == 0) {
+            if (grid[y][x].lifetime <= -50) {
+                removeParticle(sf::Vector2i(x, y));
+            } else if (grid[y][x].lifetime == 0) {
                 if (grid[y][x].clr == CLR_FIRE_DARK) grid[y][x].clr = PARTICLES_DATA[SmokeType].clr[0];
                 else if (grid[y][x].clr == CLR_FIRE_DARK2) grid[y][x].clr = PARTICLES_DATA[SmokeType].clr[1];
                 else grid[y][x].clr = PARTICLES_DATA[SmokeType].clr[2];
@@ -137,12 +138,15 @@ void ParticlesManager::updateParticleBehavior(sf::Vector2i particle_pos) {
                 
                 for (int i = -1; i <= 1; ++i) {
                     for (int j = -1; j <= 1; ++j) {
-                        if ((y + i) < GRID_SZ.y && (x + j) < GRID_SZ.x && PowderType == grid[y + i][x + j].type) {
-                            int rand_clr_index = (rand() % 3);
+                        if (PowderType == grid[y + i][x + j].type) {
+                            int test = rand() % 7;
+                            if ((y + i) < GRID_SZ.y && (x + j) < GRID_SZ.x && test < 1) {
+                                int rand_clr_index = (rand() % 3);
 
-                            grid[y + i][x + j].type = FireType;
-                            grid[y + i][x + j].clr = PARTICLES_DATA[FireType].clr[rand_clr_index];
-                            grid[y + i][x + j].lifetime = PARTICLES_DATA[FireType].lifetime;
+                                grid[y + i][x + j].type = FireType;
+                                grid[y + i][x + j].clr = PARTICLES_DATA[FireType].clr[rand_clr_index];
+                                grid[y + i][x + j].lifetime = PARTICLES_DATA[FireType].lifetime;
+                            }
                         }
                     }
                 }

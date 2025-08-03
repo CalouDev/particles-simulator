@@ -22,8 +22,8 @@ ButtonManager::ButtonManager()
 
     std::filesystem::path bin_path = std::filesystem::path(buffer).parent_path();
     std::filesystem::path font_path = bin_path / ".." / "font" / "roboto.ttf";
-    std::filesystem::path img_btn_play_path = bin_path / ".." / "images" / "button_play.png";
-    std::filesystem::path img_btn_remove_path = bin_path / ".." / "images" / "button_remove.png";
+    std::filesystem::path img_btn_play_path = bin_path / ".." / "assets" / "button_play.png";
+    std::filesystem::path img_btn_remove_path = bin_path / ".." / "assets" / "button_remove.png";
 
     if (!font.openFromFile(font_path) || !texture_btn_remove.loadFromFile(img_btn_remove_path) || !texture_btn_play.loadFromFile(img_btn_play_path)) {
         throw std::runtime_error("Error: Could not load media.\n");
