@@ -1,6 +1,6 @@
 # Particles Simulator 1.0.0
 
-A simple 2D particles simulator made with SFML 3.0 using C++
+A simple yet captivating 2D particles simulator made with SFML 3.0 using C++
 
 ## Screenshots
 
@@ -10,8 +10,8 @@ A simple 2D particles simulator made with SFML 3.0 using C++
 ## Features
 
 - Ground, sand, water, powder, fire, smoke
-- Run/stop system
-- Delete all
+- Run/stop toggle
+- Clear all particles
 
 ## Run
 
@@ -23,6 +23,14 @@ g++ src/*.cpp -o bin/app -I include -L lib -lmingw32 -lsfml-graphics -lsfml-wind
 
 ## Controls
 
-Leftclick : add particles  
-Rightclick : remove particles
-Wheel : update the cursor size
+| Input            | Action
+|------------------|------------------------
+| Left Click       | Add particles  
+| Right Click      | Remove particles  
+| Mouse Wheel      | Change brush size
+
+## Changelog
+
+| Version | Date       | Changes
+|---------|------------|----------------
+| 1.0.0   | 03/08/2025 | Stable version
