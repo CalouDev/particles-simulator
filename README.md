@@ -1,3 +1,5 @@
+# ⚠️ This repo is no longer in development at the moment, and it contains messy code. I might take up the project in the future.
+
 # Particles Simulator 1.0.0
 
 A simple yet captivating 2D particles simulator made with SFML 3.0 using C++
